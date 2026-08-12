@@ -3702,8 +3702,7 @@
               },
               "value": false,
               "hint": {
-                "en": "Cars sometimes report a more optimistic range than you can actually drive. When enabled, Homey lowers the range it receives from the car by your factor before showing it: with a factor of 10%, a reported 300 km is displayed as 270 km (the same percentage applies when range is shown in miles). This only changes the range displayed in Homey, on the device sensor and in flows. Nothing is sent to the car and the official Leapmotor app is not affected."
-              }
+                "en": "Your vehicle might report a more optimistic range than you can actually drive. When enabled, it lowers the range displayed in the Homey app. This might help you with more accurate planning. It does not change your actual range}
             },
             {
               "id": "rangeCorrectionFactor",
