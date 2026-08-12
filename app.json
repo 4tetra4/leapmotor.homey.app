@@ -1,0 +1,3942 @@
+{
+  "id": "com.leapmotor",
+  "version": "0.0.3",
+  "compatibility": ">=12.5.0",
+  "sdk": 3,
+  "platforms": [
+    "local"
+  ],
+  "name": {
+    "en": "Leapmotor"
+  },
+  "description": {
+    "en": "Give your Leapmotor a Home[y]"
+  },
+  "category": [
+    "tools"
+  ],
+  "tags": {
+    "en": [
+      "car",
+      "ev",
+      "electric vehicle",
+      "leapmotor",
+      "climate",
+      "charging",
+      "C10",
+      "B10",
+      "B33",
+      "T03",
+      "C16"
+    ]
+  },
+  "brandColor": "#272e40",
+  "images": {
+    "small": "/assets/images/small.png",
+    "large": "/assets/images/large.png",
+    "xlarge": "/assets/images/xlarge.png"
+  },
+  "author": {
+    "name": "ZperX"
+  },
+  "homepage": "https://leapmotor-ota-features.sleekplan.app/",
+  "support": "https://community.homey.app/t/157676",
+  "source": "https://github.com/4tetra4/leapmotor.homey.app",
+  "bugs": {
+    "url": "https://github.com/4tetra4/leapmotor.homey.app/issues"
+  },
+  "homeyCommunityTopicId": 157676,
+  "permissions": [],
+  "capabilities": {
+    "leapmotor_refresh": {
+      "type": "boolean",
+      "title": {
+        "en": "Refresh"
+      },
+      "getable": false,
+      "setable": true,
+      "insights": false,
+      "uiComponent": "button",
+      "uiQuickAction": true,
+      "icon": "/drivers/car/assets/icons/refresh.svg"
+    },
+    "leapmotor_lock_control": {
+      "type": "boolean",
+      "title": {
+        "en": "Lock / unlock"
+      },
+      "getable": true,
+      "setable": true,
+      "insights": false,
+      "uiComponent": "button",
+      "uiQuickAction": false,
+      "icon": "/drivers/car/assets/icons/lock.svg"
+    },
+    "leapmotor_windows_control": {
+      "type": "boolean",
+      "title": {
+        "en": "Windows"
+      },
+      "getable": true,
+      "setable": true,
+      "insights": false,
+      "uiComponent": "button",
+      "uiQuickAction": false,
+      "icon": "/drivers/car/assets/icons/window.svg"
+    },
+    "leapmotor_boot_control": {
+      "type": "boolean",
+      "title": {
+        "en": "Trunk"
+      },
+      "getable": true,
+      "setable": true,
+      "insights": false,
+      "uiComponent": "button",
+      "uiQuickAction": false,
+      "icon": "/drivers/car/assets/icons/trunkopen.svg"
+    },
+    "leapmotor_sunshade": {
+      "type": "boolean",
+      "title": {
+        "en": "Sunshade"
+      },
+      "getable": true,
+      "setable": true,
+      "insights": false,
+      "uiComponent": "button",
+      "uiQuickAction": false,
+      "icon": "/drivers/car/assets/icons/sunshade.svg"
+    },
+    "leapmotor_windshield_defrost": {
+      "type": "boolean",
+      "title": {
+        "en": "Defrost"
+      },
+      "getable": true,
+      "setable": true,
+      "insights": false,
+      "uiComponent": "button",
+      "uiQuickAction": false,
+      "icon": "/drivers/car/assets/icons/defrost.svg"
+    },
+    "leapmotor_fast_cooling": {
+      "type": "boolean",
+      "title": {
+        "en": "Fast cooling"
+      },
+      "getable": true,
+      "setable": true,
+      "insights": false,
+      "uiComponent": "button",
+      "uiQuickAction": false,
+      "icon": "/drivers/car/assets/icons/fastcool.svg"
+    },
+    "leapmotor_fast_heating": {
+      "type": "boolean",
+      "title": {
+        "en": "Fast heating"
+      },
+      "getable": true,
+      "setable": true,
+      "insights": false,
+      "uiComponent": "button",
+      "uiQuickAction": false,
+      "icon": "/drivers/car/assets/icons/heating.svg"
+    },
+    "leapmotor_mirror_heating": {
+      "type": "boolean",
+      "title": {
+        "en": "Mirror heating"
+      },
+      "getable": true,
+      "setable": true,
+      "insights": false,
+      "uiComponent": "button",
+      "uiQuickAction": false,
+      "icon": "/drivers/car/assets/icons/mirror heating.svg"
+    },
+    "leapmotor_steering_wheel_heat": {
+      "type": "boolean",
+      "title": {
+        "en": "Steering wheel heating"
+      },
+      "getable": true,
+      "setable": true,
+      "insights": false,
+      "uiComponent": "button",
+      "uiQuickAction": false,
+      "icon": "/drivers/car/assets/icons/heatedstreering.svg"
+    },
+    "leapmotor_seat_heat_driver": {
+      "type": "boolean",
+      "title": {
+        "en": "Driver seat heating"
+      },
+      "getable": true,
+      "setable": true,
+      "insights": false,
+      "uiComponent": "button",
+      "uiQuickAction": false,
+      "icon": "/drivers/car/assets/icons/seatheating.svg"
+    },
+    "leapmotor_seat_heat_passenger": {
+      "type": "boolean",
+      "title": {
+        "en": "Passenger seat heating"
+      },
+      "getable": true,
+      "setable": true,
+      "insights": false,
+      "uiComponent": "button",
+      "uiQuickAction": false,
+      "icon": "/drivers/car/assets/icons/seatheating.svg"
+    },
+    "leapmotor_seat_ventilation_driver": {
+      "type": "boolean",
+      "title": {
+        "en": "Driver seat ventilation"
+      },
+      "getable": true,
+      "setable": true,
+      "insights": false,
+      "uiComponent": "button",
+      "uiQuickAction": false,
+      "icon": "/drivers/car/assets/icons/seatventillation.svg"
+    },
+    "leapmotor_seat_ventilation_passenger": {
+      "type": "boolean",
+      "title": {
+        "en": "Passenger seat ventilation"
+      },
+      "getable": true,
+      "setable": true,
+      "insights": false,
+      "uiComponent": "button",
+      "uiQuickAction": false,
+      "icon": "/drivers/car/assets/icons/seatventillation.svg"
+    },
+    "leapmotor_unlock_charger": {
+      "type": "boolean",
+      "title": {
+        "en": "Unlock charger"
+      },
+      "getable": false,
+      "setable": true,
+      "insights": false,
+      "uiComponent": "button",
+      "uiQuickAction": false,
+      "icon": "/drivers/car/assets/icons/charge lock.svg"
+    },
+    "leapmotor_charging_control": {
+      "type": "boolean",
+      "title": {
+        "en": "Charging"
+      },
+      "getable": true,
+      "setable": true,
+      "insights": false,
+      "uiComponent": "button",
+      "uiQuickAction": false,
+      "icon": "/drivers/car/assets/icons/charging.svg"
+    },
+    "leapmotor_battery_heating_control": {
+      "type": "boolean",
+      "title": {
+        "en": "Battery heating"
+      },
+      "getable": true,
+      "setable": true,
+      "insights": false,
+      "uiComponent": "button",
+      "uiQuickAction": false,
+      "icon": "/drivers/car/assets/icons/batteryheating.svg"
+    },
+    "leapmotor_btkey_reset": {
+      "type": "boolean",
+      "title": {
+        "en": "BT key reset"
+      },
+      "getable": false,
+      "setable": true,
+      "insights": false,
+      "uiComponent": "button",
+      "uiQuickAction": false,
+      "icon": "/drivers/car/assets/icons/btkey.svg"
+    },
+    "leapmotor_soc": {
+      "type": "number",
+      "title": {
+        "en": "SOC"
+      },
+      "units": {
+        "en": "%"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": false,
+      "decimals": 1,
+      "min": 0,
+      "max": 100,
+      "uiComponent": "sensor",
+      "icon": "/drivers/car/assets/icons/SOC.svg"
+    },
+    "measure_range": {
+      "type": "number",
+      "title": {
+        "en": "Range"
+      },
+      "units": {
+        "en": "km"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": false,
+      "decimals": 0,
+      "uiComponent": "sensor",
+      "icon": "/drivers/car/assets/icons/range.svg"
+    },
+    "leapmotor_plug_type": {
+      "type": "enum",
+      "title": {
+        "en": "Plugged in"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": false,
+      "uiComponent": "sensor",
+      "icon": "/drivers/car/assets/icons/charging car cropped.svg",
+      "values": [
+        {
+          "id": "no",
+          "title": {
+            "en": "Not"
+          }
+        },
+        {
+          "id": "ccs",
+          "title": {
+            "en": "CCS"
+          }
+        },
+        {
+          "id": "type2",
+          "title": {
+            "en": "Type2"
+          }
+        }
+      ]
+    },
+    "leapmotor_plugged": {
+      "type": "boolean",
+      "title": {
+        "en": "Plugged in"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "uiComponent": null,
+      "icon": "/drivers/car/assets/icons/charging car cropped.svg"
+    },
+    "leapmotor_charging_power": {
+      "type": "string",
+      "title": {
+        "en": "Charging"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": false,
+      "uiComponent": "sensor",
+      "icon": "/drivers/car/assets/icons/charging.svg"
+    },
+    "leapmotor_charging_power_kw": {
+      "type": "number",
+      "title": {
+        "en": "Charging power"
+      },
+      "units": {
+        "en": "kW"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "decimals": 1,
+      "min": 0,
+      "max": 200,
+      "uiComponent": null,
+      "icon": "/drivers/car/assets/icons/charging.svg"
+    },
+    "leapmotor_charging": {
+      "type": "boolean",
+      "title": {
+        "en": "Charging"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": false,
+      "uiComponent": null,
+      "icon": "/drivers/car/assets/icons/charging.svg"
+    },
+    "leapmotor_heating": {
+      "type": "boolean",
+      "title": {
+        "en": "Battery heating"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "uiComponent": "sensor",
+      "icon": "/drivers/car/assets/icons/batteryheating.svg"
+    },
+    "leapmotor_cabin_heating": {
+      "type": "boolean",
+      "title": {
+        "en": "Heating"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "uiComponent": "sensor",
+      "icon": "/drivers/car/assets/icons/heating.svg"
+    },
+    "leapmotor_ac": {
+      "type": "boolean",
+      "title": {
+        "en": "AC"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "uiComponent": "sensor",
+      "icon": "/drivers/car/assets/icons/fastcool.svg"
+    },
+    "leapmotor_doors": {
+      "type": "enum",
+      "title": {
+        "en": "Doors"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "uiComponent": "sensor",
+      "icon": "/drivers/car/assets/icons/door.svg",
+      "values": [
+        {
+          "id": "closed",
+          "title": {
+            "en": "Closed"
+          }
+        },
+        {
+          "id": "open",
+          "title": {
+            "en": "Open"
+          }
+        }
+      ]
+    },
+    "leapmotor_windows": {
+      "type": "enum",
+      "title": {
+        "en": "Windows"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "uiComponent": "sensor",
+      "icon": "/drivers/car/assets/icons/window.svg",
+      "values": [
+        {
+          "id": "closed",
+          "title": {
+            "en": "Closed"
+          }
+        },
+        {
+          "id": "open",
+          "title": {
+            "en": "Open"
+          }
+        }
+      ]
+    },
+    "leapmotor_locked": {
+      "type": "boolean",
+      "title": {
+        "en": "Vehicle locked"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "uiComponent": "sensor",
+      "icon": "/drivers/car/assets/icons/lock.svg"
+    },
+    "leapmotor_security": {
+      "type": "boolean",
+      "title": {
+        "en": "Security active"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "uiComponent": "sensor",
+      "icon": "/drivers/car/assets/icons/security.svg"
+    },
+    "leapmotor_odometer": {
+      "type": "number",
+      "title": {
+        "en": "Odometer"
+      },
+      "units": {
+        "en": "km"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "decimals": 0,
+      "uiComponent": "sensor",
+      "icon": "/drivers/car/assets/icons/odometer.svg"
+    },
+    "leapmotor_speed": {
+      "type": "number",
+      "title": {
+        "en": "Speed"
+      },
+      "units": {
+        "en": "km/h"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "decimals": 0,
+      "uiComponent": "sensor",
+      "icon": "/drivers/car/assets/icons/speed.svg"
+    },
+    "leapmotor_voltage": {
+      "type": "number",
+      "title": {
+        "en": "Voltage"
+      },
+      "units": {
+        "en": "V"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": false,
+      "decimals": 1,
+      "uiComponent": "sensor",
+      "icon": "/drivers/car/assets/icons/voltage.svg"
+    },
+    "leapmotor_current": {
+      "type": "number",
+      "title": {
+        "en": "Current"
+      },
+      "units": {
+        "en": "A"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": false,
+      "decimals": 1,
+      "uiComponent": "sensor",
+      "icon": "/drivers/car/assets/icons/current.svg"
+    },
+    "leapmotor_battery_temperature": {
+      "type": "number",
+      "title": {
+        "en": "Battery temperature"
+      },
+      "units": {
+        "en": "°C"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "decimals": 1,
+      "min": -60,
+      "max": 90,
+      "uiComponent": "sensor",
+      "icon": "/drivers/car/assets/icons/batteryheating.svg"
+    },
+    "leapmotor_tire_pressure_front_left": {
+      "type": "number",
+      "title": {
+        "en": "Front left tire"
+      },
+      "units": {
+        "en": "bar"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": false,
+      "decimals": 1,
+      "uiComponent": "sensor",
+      "icon": "/drivers/car/assets/icons/TPMS.svg"
+    },
+    "leapmotor_tire_pressure_front_right": {
+      "type": "number",
+      "title": {
+        "en": "Front right tire"
+      },
+      "units": {
+        "en": "bar"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": false,
+      "decimals": 1,
+      "uiComponent": "sensor",
+      "icon": "/drivers/car/assets/icons/TPMS.svg"
+    },
+    "leapmotor_tire_pressure_rear_left": {
+      "type": "number",
+      "title": {
+        "en": "Rear left tire"
+      },
+      "units": {
+        "en": "bar"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": false,
+      "decimals": 1,
+      "uiComponent": "sensor",
+      "icon": "/drivers/car/assets/icons/TPMS.svg"
+    },
+    "leapmotor_tire_pressure_rear_right": {
+      "type": "number",
+      "title": {
+        "en": "Rear right tire"
+      },
+      "units": {
+        "en": "bar"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": false,
+      "decimals": 1,
+      "uiComponent": "sensor",
+      "icon": "/drivers/car/assets/icons/TPMS.svg"
+    },
+    "leapmotor_latitude": {
+      "type": "number",
+      "title": {
+        "en": "Latitude"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": false,
+      "decimals": 6,
+      "uiComponent": null
+    },
+    "leapmotor_longitude": {
+      "type": "number",
+      "title": {
+        "en": "Longitude"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": false,
+      "decimals": 6,
+      "uiComponent": null
+    },
+    "leapmotor_tire_pressure_average": {
+      "type": "number",
+      "title": {
+        "en": "Tire average"
+      },
+      "units": {
+        "en": "bar"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "decimals": 1,
+      "min": 0,
+      "max": 5,
+      "uiComponent": null,
+      "icon": "/drivers/car/assets/icons/TPMS.svg"
+    },
+    "leapmotor_charge_remaining": {
+      "type": "number",
+      "title": {
+        "en": "Charging time remaining"
+      },
+      "units": {
+        "en": "min"
+      },
+      "getable": true,
+      "setable": false,
+      "decimals": 0,
+      "min": 0,
+      "max": 6000,
+      "uiComponent": "sensor",
+      "icon": "/drivers/car/assets/icons/charging.svg"
+    }
+  },
+  "flow": {
+    "triggers": [
+      {
+        "id": "location_changed",
+        "title": {
+          "en": "The location changed"
+        },
+        "tokens": [
+          {
+            "name": "longitude",
+            "type": "number",
+            "title": {
+              "en": "Longitude"
+            },
+            "example": 9.19
+          },
+          {
+            "name": "latitude",
+            "type": "number",
+            "title": {
+              "en": "Latitude"
+            },
+            "example": 45.46
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          }
+        ]
+      },
+      {
+        "id": "windows_opened",
+        "title": {
+          "en": "A window was opened"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          }
+        ]
+      },
+      {
+        "id": "windows_closed",
+        "title": {
+          "en": "All windows were closed"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          }
+        ]
+      },
+      {
+        "id": "plug_type_changed",
+        "title": {
+          "en": "The plug type changed to..."
+        },
+        "titleFormatted": {
+          "en": "The plug type changed to [[type]]"
+        },
+        "tokens": [
+          {
+            "name": "type",
+            "type": "string",
+            "title": {
+              "en": "Plug type"
+            },
+            "example": "CCS"
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          },
+          {
+            "type": "dropdown",
+            "name": "type",
+            "title": {
+              "en": "Plug type"
+            },
+            "values": [
+              {
+                "id": "no",
+                "title": {
+                  "en": "Unplugged"
+                }
+              },
+              {
+                "id": "type2",
+                "title": {
+                  "en": "Type2"
+                }
+              },
+              {
+                "id": "ccs",
+                "title": {
+                  "en": "CCS"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "tire_pressure_changed",
+        "title": {
+          "en": "Tire pressure changed"
+        },
+        "titleFormatted": {
+          "en": "Tire pressure [[tire]] changed"
+        },
+        "tokens": [
+          {
+            "name": "pressure",
+            "type": "number",
+            "title": {
+              "en": "Pressure"
+            },
+            "example": 2.4
+          },
+          {
+            "name": "tire",
+            "type": "string",
+            "title": {
+              "en": "Tire"
+            },
+            "example": "front left"
+          },
+          {
+            "name": "unit",
+            "type": "string",
+            "title": {
+              "en": "Unit"
+            },
+            "example": "bar"
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          },
+          {
+            "type": "dropdown",
+            "name": "tire",
+            "title": {
+              "en": "Tire"
+            },
+            "values": [
+              {
+                "id": "any",
+                "title": {
+                  "en": "Any"
+                }
+              },
+              {
+                "id": "average",
+                "title": {
+                  "en": "Average"
+                }
+              },
+              {
+                "id": "front_left",
+                "title": {
+                  "en": "Front left"
+                }
+              },
+              {
+                "id": "front_right",
+                "title": {
+                  "en": "Front right"
+                }
+              },
+              {
+                "id": "rear_left",
+                "title": {
+                  "en": "Rear left"
+                }
+              },
+              {
+                "id": "rear_right",
+                "title": {
+                  "en": "Rear right"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "geofence_entered",
+        "title": {
+          "en": "Car entered geofence"
+        },
+        "titleFormatted": {
+          "en": "Car entered within [[radius]] [[unit]] of [[latitude]], [[longitude]]"
+        },
+        "tokens": [
+          {
+            "name": "latitude",
+            "type": "number",
+            "title": {
+              "en": "Latitude"
+            },
+            "example": 51.5
+          },
+          {
+            "name": "longitude",
+            "type": "number",
+            "title": {
+              "en": "Longitude"
+            },
+            "example": 7.5
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          },
+          {
+            "type": "number",
+            "name": "latitude",
+            "title": {
+              "en": "Latitude"
+            },
+            "min": -90,
+            "max": 90,
+            "placeholder": {
+              "en": "51.50"
+            }
+          },
+          {
+            "type": "number",
+            "name": "longitude",
+            "title": {
+              "en": "Longitude"
+            },
+            "min": -180,
+            "max": 180,
+            "placeholder": {
+              "en": "7.50"
+            }
+          },
+          {
+            "type": "number",
+            "name": "radius",
+            "title": {
+              "en": "Radius"
+            },
+            "min": 10,
+            "max": 100000,
+            "placeholder": {
+              "en": "500"
+            }
+          },
+          {
+            "type": "dropdown",
+            "name": "unit",
+            "title": {
+              "en": "Unit"
+            },
+            "values": [
+              {
+                "id": "m",
+                "title": {
+                  "en": "Meters (m)"
+                }
+              },
+              {
+                "id": "km",
+                "title": {
+                  "en": "Kilometers (km)"
+                }
+              },
+              {
+                "id": "mi",
+                "title": {
+                  "en": "Miles (mi)"
+                }
+              },
+              {
+                "id": "ft",
+                "title": {
+                  "en": "Feet (ft)"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "geofence_exited",
+        "title": {
+          "en": "Car left geofence"
+        },
+        "titleFormatted": {
+          "en": "Car left further than [[radius]] [[unit]] from [[latitude]], [[longitude]]"
+        },
+        "tokens": [
+          {
+            "name": "latitude",
+            "type": "number",
+            "title": {
+              "en": "Latitude"
+            },
+            "example": 51.5
+          },
+          {
+            "name": "longitude",
+            "type": "number",
+            "title": {
+              "en": "Longitude"
+            },
+            "example": 7.5
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          },
+          {
+            "type": "number",
+            "name": "latitude",
+            "title": {
+              "en": "Latitude"
+            },
+            "min": -90,
+            "max": 90,
+            "placeholder": {
+              "en": "51.50"
+            }
+          },
+          {
+            "type": "number",
+            "name": "longitude",
+            "title": {
+              "en": "Longitude"
+            },
+            "min": -180,
+            "max": 180,
+            "placeholder": {
+              "en": "7.50"
+            }
+          },
+          {
+            "type": "number",
+            "name": "radius",
+            "title": {
+              "en": "Radius"
+            },
+            "min": 10,
+            "max": 100000,
+            "placeholder": {
+              "en": "500"
+            }
+          },
+          {
+            "type": "dropdown",
+            "name": "unit",
+            "title": {
+              "en": "Unit"
+            },
+            "values": [
+              {
+                "id": "m",
+                "title": {
+                  "en": "Meters (m)"
+                }
+              },
+              {
+                "id": "km",
+                "title": {
+                  "en": "Kilometers (km)"
+                }
+              },
+              {
+                "id": "mi",
+                "title": {
+                  "en": "Miles (mi)"
+                }
+              },
+              {
+                "id": "ft",
+                "title": {
+                  "en": "Feet (ft)"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "charging_power_below",
+        "title": {
+          "en": "Charging power is below..."
+        },
+        "titleFormatted": {
+          "en": "Charging power dropped below [[power]] kW"
+        },
+        "tokens": [
+          {
+            "name": "power",
+            "type": "number",
+            "title": {
+              "en": "Power kW"
+            },
+            "example": 2.5
+          },
+          {
+            "name": "previous_power",
+            "type": "number",
+            "title": {
+              "en": "Previous power kW"
+            },
+            "example": 7.2
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          },
+          {
+            "type": "number",
+            "name": "power",
+            "title": {
+              "en": "Power threshold kW"
+            },
+            "min": 0,
+            "max": 200,
+            "placeholder": {
+              "en": "3.0"
+            }
+          }
+        ]
+      },
+      {
+        "id": "charging_completed",
+        "title": {
+          "en": "Charging completed"
+        },
+        "tokens": [
+          {
+            "name": "soc",
+            "type": "number",
+            "title": {
+              "en": "SOC %"
+            },
+            "example": 100
+          },
+          {
+            "name": "range",
+            "type": "number",
+            "title": {
+              "en": "Range km"
+            },
+            "example": 300
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          }
+        ]
+      },
+      {
+        "id": "charging_started",
+        "title": {
+          "en": "Charging started"
+        },
+        "tokens": [
+          {
+            "name": "power",
+            "type": "number",
+            "title": {
+              "en": "Power kW"
+            },
+            "example": 7.4
+          },
+          {
+            "name": "soc",
+            "type": "number",
+            "title": {
+              "en": "SOC %"
+            },
+            "example": 45
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          }
+        ]
+      },
+      {
+        "id": "charging_stopped",
+        "title": {
+          "en": "Charging stopped"
+        },
+        "tokens": [
+          {
+            "name": "power",
+            "type": "number",
+            "title": {
+              "en": "Power kW"
+            },
+            "example": 0
+          },
+          {
+            "name": "soc",
+            "type": "number",
+            "title": {
+              "en": "SOC %"
+            },
+            "example": 82
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          }
+        ]
+      },
+      {
+        "id": "opening_changed",
+        "title": {
+          "en": "A door, trunk, window or sunshade opened or closed"
+        },
+        "titleFormatted": {
+          "en": "The [[item]] was [[state]]"
+        },
+        "tokens": [
+          {
+            "name": "item",
+            "type": "string",
+            "title": {
+              "en": "Item"
+            },
+            "example": "door"
+          },
+          {
+            "name": "state",
+            "type": "string",
+            "title": {
+              "en": "State"
+            },
+            "example": "opened"
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          },
+          {
+            "type": "dropdown",
+            "name": "item",
+            "title": {
+              "en": "Item"
+            },
+            "values": [
+              {
+                "id": "door",
+                "title": {
+                  "en": "door"
+                }
+              },
+              {
+                "id": "trunk",
+                "title": {
+                  "en": "trunk"
+                }
+              },
+              {
+                "id": "window",
+                "title": {
+                  "en": "window"
+                }
+              },
+              {
+                "id": "sunshade",
+                "title": {
+                  "en": "sunshade"
+                }
+              }
+            ]
+          },
+          {
+            "type": "dropdown",
+            "name": "state",
+            "title": {
+              "en": "State"
+            },
+            "values": [
+              {
+                "id": "opened",
+                "title": {
+                  "en": "opened"
+                }
+              },
+              {
+                "id": "closed",
+                "title": {
+                  "en": "closed"
+                }
+              }
+            ]
+          }
+        ],
+        "icon": "/drivers/car/assets/icons/door.svg"
+      },
+      {
+        "id": "data_stale",
+        "title": {
+          "en": "Last data is older than..."
+        },
+        "titleFormatted": {
+          "en": "Last data is older than [[duration]] [[unit]]"
+        },
+        "tokens": [
+          {
+            "name": "age_minutes",
+            "type": "number",
+            "title": {
+              "en": "Age minutes"
+            },
+            "example": 120
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          },
+          {
+            "type": "number",
+            "name": "duration",
+            "title": {
+              "en": "Duration"
+            },
+            "min": 1,
+            "max": 10000,
+            "placeholder": {
+              "en": "30"
+            }
+          },
+          {
+            "type": "dropdown",
+            "name": "unit",
+            "title": {
+              "en": "Unit"
+            },
+            "values": [
+              {
+                "id": "minutes",
+                "title": {
+                  "en": "Minutes"
+                }
+              },
+              {
+                "id": "hours",
+                "title": {
+                  "en": "Hours"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "car_parked",
+        "title": {
+          "en": "Car is parked"
+        },
+        "tokens": [
+          {
+            "name": "speed",
+            "type": "number",
+            "title": {
+              "en": "Speed"
+            },
+            "example": 0
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          }
+        ]
+      },
+      {
+        "id": "car_moving",
+        "title": {
+          "en": "Car is moving"
+        },
+        "tokens": [
+          {
+            "name": "speed",
+            "type": "number",
+            "title": {
+              "en": "Speed"
+            },
+            "example": 48
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          }
+        ]
+      },
+      {
+        "id": "car_locked",
+        "title": {
+          "en": "Car locked"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          }
+        ]
+      },
+      {
+        "id": "car_unlocked",
+        "title": {
+          "en": "Car unlocked"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          }
+        ]
+      },
+      {
+        "id": "tire_pressure_low",
+        "title": {
+          "en": "Tire pressure dropped below..."
+        },
+        "titleFormatted": {
+          "en": "Tire pressure [[tire]] dropped below [[pressure]] bar"
+        },
+        "tokens": [
+          {
+            "name": "tire",
+            "type": "string",
+            "title": {
+              "en": "Tire"
+            },
+            "example": "front_left"
+          },
+          {
+            "name": "pressure",
+            "type": "number",
+            "title": {
+              "en": "Pressure bar"
+            },
+            "example": 2.1
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          },
+          {
+            "type": "dropdown",
+            "name": "tire",
+            "title": {
+              "en": "Tire"
+            },
+            "values": [
+              {
+                "id": "any",
+                "title": {
+                  "en": "Any"
+                }
+              },
+              {
+                "id": "average",
+                "title": {
+                  "en": "Average"
+                }
+              },
+              {
+                "id": "front_left",
+                "title": {
+                  "en": "Front left"
+                }
+              },
+              {
+                "id": "front_right",
+                "title": {
+                  "en": "Front right"
+                }
+              },
+              {
+                "id": "rear_left",
+                "title": {
+                  "en": "Rear left"
+                }
+              },
+              {
+                "id": "rear_right",
+                "title": {
+                  "en": "Rear right"
+                }
+              }
+            ]
+          },
+          {
+            "type": "number",
+            "name": "pressure",
+            "title": {
+              "en": "Pressure threshold bar"
+            },
+            "min": 0.5,
+            "max": 5,
+            "placeholder": {
+              "en": "2.0"
+            }
+          }
+        ]
+      },
+      {
+        "id": "range_dropped_below",
+        "title": {
+          "en": "The range became less than..."
+        },
+        "titleFormatted": {
+          "en": "The range became less than [[range]] [[unit]]"
+        },
+        "tokens": [
+          {
+            "name": "range",
+            "type": "number",
+            "title": {
+              "en": "Range"
+            },
+            "example": 80
+          },
+          {
+            "name": "unit",
+            "type": "string",
+            "title": {
+              "en": "Unit"
+            },
+            "example": "km"
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          },
+          {
+            "type": "number",
+            "name": "range",
+            "title": {
+              "en": "Range"
+            },
+            "min": 1,
+            "max": 1000,
+            "placeholder": {
+              "en": "1 - 1000"
+            }
+          },
+          {
+            "type": "dropdown",
+            "name": "unit",
+            "title": {
+              "en": "Unit"
+            },
+            "values": [
+              {
+                "id": "km",
+                "title": {
+                  "en": "Kilometers (km)"
+                }
+              },
+              {
+                "id": "mi",
+                "title": {
+                  "en": "Miles (mi)"
+                }
+              }
+            ]
+          }
+        ],
+        "icon": "/drivers/car/assets/icons/range.svg"
+      },
+      {
+        "id": "range_rose_above",
+        "title": {
+          "en": "The range became greater than..."
+        },
+        "titleFormatted": {
+          "en": "The range became greater than [[range]] [[unit]]"
+        },
+        "icon": "/drivers/car/assets/icons/range.svg",
+        "tokens": [
+          {
+            "name": "range",
+            "type": "number",
+            "title": {
+              "en": "Range"
+            },
+            "example": 320
+          },
+          {
+            "name": "unit",
+            "type": "string",
+            "title": {
+              "en": "Unit"
+            },
+            "example": "km"
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          },
+          {
+            "type": "number",
+            "name": "range",
+            "title": {
+              "en": "Range"
+            },
+            "min": 1,
+            "max": 1000,
+            "placeholder": {
+              "en": "1 - 1000"
+            }
+          },
+          {
+            "type": "dropdown",
+            "name": "unit",
+            "title": {
+              "en": "Unit"
+            },
+            "values": [
+              {
+                "id": "km",
+                "title": {
+                  "en": "Kilometers (km)"
+                }
+              },
+              {
+                "id": "mi",
+                "title": {
+                  "en": "Miles (mi)"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "charge_remaining_below",
+        "title": {
+          "en": "Charging time remaining drops below..."
+        },
+        "titleFormatted": {
+          "en": "Charging time remaining drops below [[duration]] [[unit]]"
+        },
+        "tokens": [
+          {
+            "name": "remaining",
+            "type": "number",
+            "title": {
+              "en": "Remaining"
+            },
+            "example": 45
+          },
+          {
+            "name": "unit",
+            "type": "string",
+            "title": {
+              "en": "Unit"
+            },
+            "example": "minutes"
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          },
+          {
+            "type": "number",
+            "name": "duration",
+            "title": {
+              "en": "Duration"
+            },
+            "min": 0,
+            "max": 6000,
+            "placeholder": {
+              "en": "30"
+            }
+          },
+          {
+            "type": "dropdown",
+            "name": "unit",
+            "title": {
+              "en": "Unit"
+            },
+            "values": [
+              {
+                "id": "minutes",
+                "title": {
+                  "en": "Minutes"
+                }
+              },
+              {
+                "id": "hours",
+                "title": {
+                  "en": "Hours"
+                }
+              }
+            ]
+          }
+        ],
+        "icon": "/drivers/car/assets/icons/charging.svg"
+      },
+      {
+        "id": "charge_remaining_changed",
+        "title": {
+          "en": "Charging time remaining changed"
+        },
+        "tokens": [
+          {
+            "name": "remaining",
+            "type": "number",
+            "title": {
+              "en": "Remaining minutes"
+            },
+            "example": 45
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          }
+        ],
+        "icon": "/drivers/car/assets/icons/charging.svg"
+      }
+    ],
+    "conditions": [
+      {
+        "id": "is_charging",
+        "title": {
+          "en": "The car !{{is|isn't}} charging"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          }
+        ]
+      },
+      {
+        "id": "is_plugged_in",
+        "title": {
+          "en": "The car !{{is|isn't}} plugged in"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          }
+        ]
+      },
+      {
+        "id": "plug_type",
+        "title": {
+          "en": "The plug type is..."
+        },
+        "titleFormatted": {
+          "en": "The plug type is [[type]]"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          },
+          {
+            "type": "dropdown",
+            "name": "type",
+            "title": {
+              "en": "Plug type"
+            },
+            "values": [
+              {
+                "id": "plugged",
+                "title": {
+                  "en": "Plugged in"
+                }
+              },
+              {
+                "id": "no",
+                "title": {
+                  "en": "Unplugged"
+                }
+              },
+              {
+                "id": "type2",
+                "title": {
+                  "en": "Type2"
+                }
+              },
+              {
+                "id": "ccs",
+                "title": {
+                  "en": "CCS"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "is_locked",
+        "title": {
+          "en": "The car !{{is|isn't}} locked"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          }
+        ]
+      },
+      {
+        "id": "windows_open",
+        "title": {
+          "en": "A window !{{is|isn't}} open"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          }
+        ]
+      },
+      {
+        "id": "battery_below",
+        "title": {
+          "en": "The battery !{{is|isn't}} below..."
+        },
+        "titleFormatted": {
+          "en": "The battery !{{is|isn't}} below [[percentage]] %"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          },
+          {
+            "type": "number",
+            "name": "percentage",
+            "title": {
+              "en": "Percentage"
+            },
+            "min": 1,
+            "max": 100,
+            "placeholder": {
+              "en": "1 - 100"
+            }
+          }
+        ]
+      },
+      {
+        "id": "charging_power_above",
+        "title": {
+          "en": "The charging power !{{is|isn't}} above..."
+        },
+        "titleFormatted": {
+          "en": "The charging power !{{is|isn't}} above [[power]] kW"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          },
+          {
+            "type": "number",
+            "name": "power",
+            "title": {
+              "en": "Power"
+            },
+            "min": 0,
+            "max": 200,
+            "placeholder": {
+              "en": "0 - 200"
+            }
+          }
+        ]
+      },
+      {
+        "id": "location_within_tolerance",
+        "title": {
+          "en": "Location is within tolerance"
+        },
+        "titleFormatted": {
+          "en": "Latitude within [[latitude]] ± [[lat_tolerance]] and longitude within [[longitude]] ± [[lon_tolerance]]"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          },
+          {
+            "type": "number",
+            "name": "latitude",
+            "title": {
+              "en": "Latitude"
+            },
+            "min": -90,
+            "max": 90,
+            "placeholder": {
+              "en": "51.50"
+            }
+          },
+          {
+            "type": "number",
+            "name": "lat_tolerance",
+            "title": {
+              "en": "Latitude tolerance"
+            },
+            "min": 0.0001,
+            "max": 5,
+            "placeholder": {
+              "en": "0.01"
+            }
+          },
+          {
+            "type": "number",
+            "name": "longitude",
+            "title": {
+              "en": "Longitude"
+            },
+            "min": -180,
+            "max": 180,
+            "placeholder": {
+              "en": "7.50"
+            }
+          },
+          {
+            "type": "number",
+            "name": "lon_tolerance",
+            "title": {
+              "en": "Longitude tolerance"
+            },
+            "min": 0.0001,
+            "max": 5,
+            "placeholder": {
+              "en": "0.01"
+            }
+          }
+        ]
+      },
+      {
+        "id": "geofence_within",
+        "title": {
+          "en": "Car is within geofence"
+        },
+        "titleFormatted": {
+          "en": "Car is within [[radius]] [[unit]] of [[latitude]], [[longitude]]"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          },
+          {
+            "type": "number",
+            "name": "latitude",
+            "title": {
+              "en": "Latitude"
+            },
+            "min": -90,
+            "max": 90,
+            "placeholder": {
+              "en": "51.50"
+            }
+          },
+          {
+            "type": "number",
+            "name": "longitude",
+            "title": {
+              "en": "Longitude"
+            },
+            "min": -180,
+            "max": 180,
+            "placeholder": {
+              "en": "7.50"
+            }
+          },
+          {
+            "type": "number",
+            "name": "radius",
+            "title": {
+              "en": "Radius"
+            },
+            "min": 10,
+            "max": 100000,
+            "placeholder": {
+              "en": "500"
+            }
+          },
+          {
+            "type": "dropdown",
+            "name": "unit",
+            "title": {
+              "en": "Unit"
+            },
+            "values": [
+              {
+                "id": "m",
+                "title": {
+                  "en": "Meters (m)"
+                }
+              },
+              {
+                "id": "km",
+                "title": {
+                  "en": "Kilometers (km)"
+                }
+              },
+              {
+                "id": "mi",
+                "title": {
+                  "en": "Miles (mi)"
+                }
+              },
+              {
+                "id": "ft",
+                "title": {
+                  "en": "Feet (ft)"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "data_is_stale",
+        "title": {
+          "en": "Last data is older than..."
+        },
+        "titleFormatted": {
+          "en": "Last data is older than [[duration]] [[unit]]"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          },
+          {
+            "type": "number",
+            "name": "duration",
+            "title": {
+              "en": "Duration"
+            },
+            "min": 1,
+            "max": 10000,
+            "placeholder": {
+              "en": "30"
+            }
+          },
+          {
+            "type": "dropdown",
+            "name": "unit",
+            "title": {
+              "en": "Unit"
+            },
+            "values": [
+              {
+                "id": "minutes",
+                "title": {
+                  "en": "Minutes"
+                }
+              },
+              {
+                "id": "hours",
+                "title": {
+                  "en": "Hours"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "is_parked",
+        "title": {
+          "en": "Car !{{is|isn't}} parked"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          }
+        ]
+      },
+      {
+        "id": "tire_pressure_below",
+        "title": {
+          "en": "Tire pressure is below..."
+        },
+        "titleFormatted": {
+          "en": "Tire pressure [[tire]] is below [[pressure]] bar"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          },
+          {
+            "type": "dropdown",
+            "name": "tire",
+            "title": {
+              "en": "Tire"
+            },
+            "values": [
+              {
+                "id": "any",
+                "title": {
+                  "en": "Any"
+                }
+              },
+              {
+                "id": "average",
+                "title": {
+                  "en": "Average"
+                }
+              },
+              {
+                "id": "front_left",
+                "title": {
+                  "en": "Front left"
+                }
+              },
+              {
+                "id": "front_right",
+                "title": {
+                  "en": "Front right"
+                }
+              },
+              {
+                "id": "rear_left",
+                "title": {
+                  "en": "Rear left"
+                }
+              },
+              {
+                "id": "rear_right",
+                "title": {
+                  "en": "Rear right"
+                }
+              }
+            ]
+          },
+          {
+            "type": "number",
+            "name": "pressure",
+            "title": {
+              "en": "Pressure bar"
+            },
+            "min": 0.5,
+            "max": 5,
+            "placeholder": {
+              "en": "2.0"
+            }
+          }
+        ]
+      },
+      {
+        "id": "range_below",
+        "title": {
+          "en": "Range is below..."
+        },
+        "titleFormatted": {
+          "en": "Range is below [[range]] [[unit]]"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          },
+          {
+            "type": "number",
+            "name": "range",
+            "title": {
+              "en": "Range"
+            },
+            "min": 1,
+            "max": 1000,
+            "placeholder": {
+              "en": "100"
+            }
+          },
+          {
+            "type": "dropdown",
+            "name": "unit",
+            "title": {
+              "en": "Unit"
+            },
+            "values": [
+              {
+                "id": "km",
+                "title": {
+                  "en": "Kilometers"
+                }
+              },
+              {
+                "id": "mi",
+                "title": {
+                  "en": "Miles"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "charging_power_below",
+        "title": {
+          "en": "Charging power is below..."
+        },
+        "titleFormatted": {
+          "en": "Charging power is below [[power]] kW"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          },
+          {
+            "type": "number",
+            "name": "power",
+            "title": {
+              "en": "Power kW"
+            },
+            "min": 0,
+            "max": 200,
+            "placeholder": {
+              "en": "3.0"
+            }
+          }
+        ]
+      },
+      {
+        "id": "charge_remaining_below",
+        "title": {
+          "en": "Charging time remaining is below..."
+        },
+        "titleFormatted": {
+          "en": "Charging time remaining !{{is|isn't}} below [[duration]] [[unit]]"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          },
+          {
+            "type": "number",
+            "name": "duration",
+            "title": {
+              "en": "Duration"
+            },
+            "min": 0,
+            "max": 6000,
+            "placeholder": {
+              "en": "30"
+            }
+          },
+          {
+            "type": "dropdown",
+            "name": "unit",
+            "title": {
+              "en": "Unit"
+            },
+            "values": [
+              {
+                "id": "minutes",
+                "title": {
+                  "en": "Minutes"
+                }
+              },
+              {
+                "id": "hours",
+                "title": {
+                  "en": "Hours"
+                }
+              }
+            ]
+          }
+        ],
+        "icon": "/drivers/car/assets/icons/charging.svg"
+      },
+      {
+        "id": "charge_remaining_known",
+        "title": {
+          "en": "Charging time remaining is known"
+        },
+        "titleFormatted": {
+          "en": "Charging time remaining !{{is|isn't}} known"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          }
+        ],
+        "icon": "/drivers/car/assets/icons/charging.svg"
+      }
+    ],
+    "actions": [
+      {
+        "id": "lock",
+        "title": {
+          "en": "Lock the car"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          }
+        ]
+      },
+      {
+        "id": "unlock",
+        "title": {
+          "en": "Unlock the car"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          }
+        ]
+      },
+      {
+        "id": "find_car",
+        "title": {
+          "en": "Find the car"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          }
+        ]
+      },
+      {
+        "id": "open_trunk",
+        "title": {
+          "en": "Open the boot"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          }
+        ]
+      },
+      {
+        "id": "close_trunk",
+        "title": {
+          "en": "Close the boot"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          }
+        ]
+      },
+      {
+        "id": "open_windows",
+        "title": {
+          "en": "Open the windows"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          }
+        ]
+      },
+      {
+        "id": "close_windows",
+        "title": {
+          "en": "Close the windows"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          }
+        ]
+      },
+      {
+        "id": "open_sunroof",
+        "title": {
+          "en": "Open the sunroof"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          }
+        ]
+      },
+      {
+        "id": "close_sunroof",
+        "title": {
+          "en": "Close the sunroof"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          }
+        ]
+      },
+      {
+        "id": "open_sunshade",
+        "title": {
+          "en": "Open the sunshade"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          }
+        ]
+      },
+      {
+        "id": "close_sunshade",
+        "title": {
+          "en": "Close the sunshade"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          }
+        ]
+      },
+      {
+        "id": "quick_cool",
+        "title": {
+          "en": "Start quick cooling"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          }
+        ]
+      },
+      {
+        "id": "quick_heat",
+        "title": {
+          "en": "Start quick heating"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          }
+        ]
+      },
+      {
+        "id": "windshield_defrost",
+        "title": {
+          "en": "Start windshield defrost"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          }
+        ]
+      },
+      {
+        "id": "climate_off",
+        "title": {
+          "en": "Turn heating/AC off"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          }
+        ]
+      },
+      {
+        "id": "ventilation_off",
+        "title": {
+          "en": "Turn ventilation off"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          }
+        ]
+      },
+      {
+        "id": "set_climate",
+        "title": {
+          "en": "Turn the climate on..."
+        },
+        "titleFormatted": {
+          "en": "Turn the climate on at [[temperature]] °C"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          },
+          {
+            "type": "number",
+            "name": "temperature",
+            "title": {
+              "en": "Temperature"
+            },
+            "min": 16,
+            "max": 32,
+            "placeholder": {
+              "en": "16 - 32"
+            }
+          }
+        ]
+      },
+      {
+        "id": "start_charging",
+        "title": {
+          "en": "Start charging"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          }
+        ]
+      },
+      {
+        "id": "stop_charging",
+        "title": {
+          "en": "Stop charging"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          }
+        ]
+      },
+      {
+        "id": "unlock_charger",
+        "title": {
+          "en": "Unlock the charger"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          }
+        ]
+      },
+      {
+        "id": "set_charge_limit",
+        "title": {
+          "en": "Set the charge limit..."
+        },
+        "titleFormatted": {
+          "en": "Set the charge limit to [[percentage]] %"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          },
+          {
+            "type": "number",
+            "name": "percentage",
+            "title": {
+              "en": "Percentage"
+            },
+            "min": 20,
+            "max": 100,
+            "placeholder": {
+              "en": "20 - 100"
+            }
+          }
+        ]
+      },
+      {
+        "id": "set_charge_plan",
+        "title": {
+          "en": "Set the charge plan..."
+        },
+        "titleFormatted": {
+          "en": "[[chargeEnable]] the charge plan: charge to [[chargesoc]] % between [[starttime]] and [[endtime]] on [[cycles]] (recharge: [[recharge]])"
+        },
+        "icon": "/drivers/car/assets/icons/charging.svg",
+        "hint": {
+          "en": "Configures the scheduled charging plan of the car (Leapmotor command 190). Leave the days empty for a one-time charging window; pick one or more days for a weekly repeating plan. This command requires the vehicle PIN."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          },
+          {
+            "type": "dropdown",
+            "name": "chargeEnable",
+            "title": {
+              "en": "Charge plan"
+            },
+            "values": [
+              {
+                "id": "1",
+                "title": {
+                  "en": "Enable"
+                }
+              },
+              {
+                "id": "0",
+                "title": {
+                  "en": "Disable"
+                }
+              }
+            ]
+          },
+          {
+            "type": "time",
+            "name": "starttime",
+            "title": {
+              "en": "Start time"
+            },
+            "placeholder": {
+              "en": "23:00"
+            }
+          },
+          {
+            "type": "time",
+            "name": "endtime",
+            "title": {
+              "en": "End time"
+            },
+            "placeholder": {
+              "en": "07:00"
+            }
+          },
+          {
+            "type": "number",
+            "name": "chargesoc",
+            "title": {
+              "en": "Charge target (%)"
+            },
+            "min": 1,
+            "max": 100,
+            "placeholder": {
+              "en": "1 - 100"
+            }
+          },
+          {
+            "type": "multiselect",
+            "name": "cycles",
+            "title": {
+              "en": "Active days"
+            },
+            "conjunction": "and",
+            "required": false,
+            "values": [
+              {
+                "id": "mon",
+                "title": {
+                  "en": "Monday"
+                }
+              },
+              {
+                "id": "tue",
+                "title": {
+                  "en": "Tuesday"
+                }
+              },
+              {
+                "id": "wed",
+                "title": {
+                  "en": "Wednesday"
+                }
+              },
+              {
+                "id": "thu",
+                "title": {
+                  "en": "Thursday"
+                }
+              },
+              {
+                "id": "fri",
+                "title": {
+                  "en": "Friday"
+                }
+              },
+              {
+                "id": "sat",
+                "title": {
+                  "en": "Saturday"
+                }
+              },
+              {
+                "id": "sun",
+                "title": {
+                  "en": "Sunday"
+                }
+              }
+            ]
+          },
+          {
+            "type": "dropdown",
+            "name": "recharge",
+            "title": {
+              "en": "Recharge"
+            },
+            "values": [
+              {
+                "id": "0",
+                "title": {
+                  "en": "Off"
+                }
+              },
+              {
+                "id": "1",
+                "title": {
+                  "en": "On"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "healthy_charging_on",
+        "title": {
+          "en": "Turn healthy charging on"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          }
+        ]
+      },
+      {
+        "id": "healthy_charging_off",
+        "title": {
+          "en": "Turn healthy charging off"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          }
+        ]
+      },
+      {
+        "id": "battery_preheat_on",
+        "title": {
+          "en": "Turn battery preheating on"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          }
+        ]
+      },
+      {
+        "id": "battery_preheat_off",
+        "title": {
+          "en": "Turn battery preheating off"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          }
+        ]
+      },
+      {
+        "id": "steering_wheel_heat_on",
+        "title": {
+          "en": "Turn steering wheel heating on"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          }
+        ]
+      },
+      {
+        "id": "steering_wheel_heat_off",
+        "title": {
+          "en": "Turn steering wheel heating off"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          }
+        ]
+      },
+      {
+        "id": "mirror_heat_on",
+        "title": {
+          "en": "Turn mirror heating on"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          }
+        ]
+      },
+      {
+        "id": "mirror_heat_off",
+        "title": {
+          "en": "Turn mirror heating off"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          }
+        ]
+      },
+      {
+        "id": "seat_heat",
+        "title": {
+          "en": "Set seat heating..."
+        },
+        "titleFormatted": {
+          "en": "Set seat heating for [[position]] to level [[level]]"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          },
+          {
+            "type": "dropdown",
+            "name": "position",
+            "title": {
+              "en": "Seat"
+            },
+            "values": [
+              {
+                "id": "3",
+                "title": {
+                  "en": "Driver"
+                }
+              },
+              {
+                "id": "2",
+                "title": {
+                  "en": "Passenger"
+                }
+              }
+            ]
+          },
+          {
+            "type": "dropdown",
+            "name": "level",
+            "title": {
+              "en": "Level"
+            },
+            "values": [
+              {
+                "id": "0",
+                "title": {
+                  "en": "Off"
+                }
+              },
+              {
+                "id": "1",
+                "title": {
+                  "en": "Low"
+                }
+              },
+              {
+                "id": "2",
+                "title": {
+                  "en": "Medium"
+                }
+              },
+              {
+                "id": "3",
+                "title": {
+                  "en": "High"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "seat_ventilation",
+        "title": {
+          "en": "Set seat ventilation..."
+        },
+        "titleFormatted": {
+          "en": "Set seat ventilation for [[position]] to level [[level]]"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          },
+          {
+            "type": "dropdown",
+            "name": "position",
+            "title": {
+              "en": "Seat"
+            },
+            "values": [
+              {
+                "id": "3",
+                "title": {
+                  "en": "Driver"
+                }
+              },
+              {
+                "id": "2",
+                "title": {
+                  "en": "Passenger"
+                }
+              }
+            ]
+          },
+          {
+            "type": "dropdown",
+            "name": "level",
+            "title": {
+              "en": "Level"
+            },
+            "values": [
+              {
+                "id": "0",
+                "title": {
+                  "en": "Off"
+                }
+              },
+              {
+                "id": "1",
+                "title": {
+                  "en": "Low"
+                }
+              },
+              {
+                "id": "2",
+                "title": {
+                  "en": "Medium"
+                }
+              },
+              {
+                "id": "3",
+                "title": {
+                  "en": "High"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "ble_key_restart",
+        "title": {
+          "en": "Restart the Bluetooth key"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          }
+        ]
+      },
+      {
+        "id": "sentry_mode_on",
+        "title": {
+          "en": "Turn sentry mode on"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          }
+        ]
+      },
+      {
+        "id": "sentry_mode_off",
+        "title": {
+          "en": "Turn sentry mode off"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          }
+        ]
+      },
+      {
+        "id": "set_speed_limit",
+        "title": {
+          "en": "Set the speed limit..."
+        },
+        "titleFormatted": {
+          "en": "Set the speed limit to [[speed]] [[unit]]"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          },
+          {
+            "type": "number",
+            "name": "speed",
+            "title": {
+              "en": "Speed"
+            },
+            "min": 0,
+            "max": 200,
+            "placeholder": {
+              "en": "0 - 200"
+            }
+          },
+          {
+            "type": "dropdown",
+            "name": "unit",
+            "title": {
+              "en": "Unit"
+            },
+            "values": [
+              {
+                "id": "kmh",
+                "title": {
+                  "en": "Kilometers per hour (km/h)"
+                }
+              },
+              {
+                "id": "mph",
+                "title": {
+                  "en": "Miles per hour (mph)"
+                }
+              }
+            ]
+          }
+        ],
+        "icon": "/drivers/car/assets/icons/speed.svg",
+        "hint": {
+          "en": "Choose the unit the value is entered in. The limit is converted to kilometers per hour before it is sent to the car, so the result is correct regardless of the unit shown on the device."
+        }
+      },
+      {
+        "id": "refresh_status",
+        "title": {
+          "en": "Refresh the status"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          }
+        ]
+      },
+      {
+        "id": "raw_command",
+        "title": {
+          "en": "Send a raw command..."
+        },
+        "titleFormatted": {
+          "en": "Send raw command [[cmdId]] with content [[cmdContent]] (PIN: [[requiresPin]])"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          },
+          {
+            "type": "text",
+            "name": "cmdId",
+            "title": {
+              "en": "Command ID"
+            },
+            "placeholder": {
+              "en": "110 - 510"
+            }
+          },
+          {
+            "type": "text",
+            "name": "cmdContent",
+            "title": {
+              "en": "Command content (JSON)"
+            },
+            "placeholder": {
+              "en": "{\"value\":\"lock\"}"
+            }
+          },
+          {
+            "type": "dropdown",
+            "name": "requiresPin",
+            "title": {
+              "en": "Requires PIN"
+            },
+            "values": [
+              {
+                "id": "yes",
+                "title": {
+                  "en": "Yes"
+                }
+              },
+              {
+                "id": "no",
+                "title": {
+                  "en": "No"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "set_climate_complex",
+        "title": {
+          "en": "Set climate (advanced)..."
+        },
+        "titleFormatted": {
+          "en": "Set climate [[temperature]]°C fan [[windlevel]] mode [[mode]] circle [[circle]] [[operate]] [[position]] windshield [[wshld]]"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          },
+          {
+            "type": "number",
+            "name": "temperature",
+            "title": {
+              "en": "Temperature"
+            },
+            "min": 16,
+            "max": 32,
+            "placeholder": {
+              "en": "16 - 32"
+            }
+          },
+          {
+            "type": "number",
+            "name": "windlevel",
+            "title": {
+              "en": "Fan speed"
+            },
+            "min": 1,
+            "max": 7,
+            "placeholder": {
+              "en": "1 - 7"
+            }
+          },
+          {
+            "type": "dropdown",
+            "name": "mode",
+            "title": {
+              "en": "Mode"
+            },
+            "values": [
+              {
+                "id": "cold",
+                "title": {
+                  "en": "Cold"
+                }
+              },
+              {
+                "id": "hot",
+                "title": {
+                  "en": "Hot"
+                }
+              },
+              {
+                "id": "wind",
+                "title": {
+                  "en": "Wind"
+                }
+              }
+            ]
+          },
+          {
+            "type": "dropdown",
+            "name": "circle",
+            "title": {
+              "en": "Recirculation"
+            },
+            "values": [
+              {
+                "id": "in",
+                "title": {
+                  "en": "Inside"
+                }
+              },
+              {
+                "id": "out",
+                "title": {
+                  "en": "Outside"
+                }
+              }
+            ]
+          },
+          {
+            "type": "dropdown",
+            "name": "operate",
+            "title": {
+              "en": "Operation"
+            },
+            "values": [
+              {
+                "id": "manual",
+                "title": {
+                  "en": "Manual"
+                }
+              },
+              {
+                "id": "auto",
+                "title": {
+                  "en": "Auto"
+                }
+              },
+              {
+                "id": "close",
+                "title": {
+                  "en": "Off"
+                }
+              }
+            ]
+          },
+          {
+            "type": "dropdown",
+            "name": "position",
+            "title": {
+              "en": "Position"
+            },
+            "values": [
+              {
+                "id": "all",
+                "title": {
+                  "en": "All"
+                }
+              }
+            ]
+          },
+          {
+            "type": "dropdown",
+            "name": "wshld",
+            "title": {
+              "en": "Windshield defrost"
+            },
+            "values": [
+              {
+                "id": "0",
+                "title": {
+                  "en": "Off"
+                }
+              },
+              {
+                "id": "1",
+                "title": {
+                  "en": "On"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "seat_adjust",
+        "title": {
+          "en": "Adjust front seat position..."
+        },
+        "titleFormatted": {
+          "en": "Adjust [[seat]] seat with [[adjustment]]"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          },
+          {
+            "type": "dropdown",
+            "name": "seat",
+            "title": {
+              "en": "Seat"
+            },
+            "values": [
+              {
+                "id": "driver",
+                "title": {
+                  "en": "Driver"
+                }
+              },
+              {
+                "id": "passenger",
+                "title": {
+                  "en": "Passenger"
+                }
+              },
+              {
+                "id": "1",
+                "title": {
+                  "en": "Left front"
+                }
+              },
+              {
+                "id": "2",
+                "title": {
+                  "en": "Copilot"
+                }
+              },
+              {
+                "id": "3",
+                "title": {
+                  "en": "Driver (numeric)"
+                }
+              },
+              {
+                "id": "4",
+                "title": {
+                  "en": "Right front"
+                }
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "name": "adjustment",
+            "title": {
+              "en": "Adjustment JSON"
+            },
+            "placeholder": {
+              "en": "{\"value\":\"1,2\"} or {\"forward\":1}"
+            }
+          }
+        ]
+      },
+      {
+        "id": "send_coordinates",
+        "title": {
+          "en": "Send coordinates to car"
+        },
+        "titleFormatted": {
+          "en": "Send coordinates [[latitude]], [[longitude]] [[name]]"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          },
+          {
+            "type": "number",
+            "name": "latitude",
+            "title": {
+              "en": "Latitude"
+            },
+            "min": -90,
+            "max": 90,
+            "placeholder": {
+              "en": "51.4441"
+            }
+          },
+          {
+            "type": "number",
+            "name": "longitude",
+            "title": {
+              "en": "Longitude"
+            },
+            "min": -180,
+            "max": 180,
+            "placeholder": {
+              "en": "4.9184"
+            }
+          },
+          {
+            "type": "text",
+            "name": "name",
+            "title": {
+              "en": "Name / POI"
+            },
+            "placeholder": {
+              "en": "Destination"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "drivers": [
+    {
+      "id": "car",
+      "name": {
+        "en": "Leapmotor"
+      },
+      "class": "car",
+      "capabilities": [
+        "leapmotor_refresh",
+        "leapmotor_lock_control",
+        "leapmotor_windows_control",
+        "leapmotor_boot_control",
+        "leapmotor_sunshade",
+        "leapmotor_windshield_defrost",
+        "leapmotor_fast_cooling",
+        "leapmotor_fast_heating",
+        "leapmotor_mirror_heating",
+        "leapmotor_steering_wheel_heat",
+        "leapmotor_seat_heat_driver",
+        "leapmotor_seat_heat_passenger",
+        "leapmotor_seat_ventilation_driver",
+        "leapmotor_seat_ventilation_passenger",
+        "leapmotor_unlock_charger",
+        "leapmotor_charging_control",
+        "leapmotor_battery_heating_control",
+        "leapmotor_btkey_reset",
+        "leapmotor_soc",
+        "measure_battery",
+        "measure_range",
+        "measure_temperature",
+        "leapmotor_plug_type",
+        "leapmotor_charge_remaining",
+        "leapmotor_charging_power",
+        "leapmotor_cabin_heating",
+        "leapmotor_ac",
+        "leapmotor_doors",
+        "leapmotor_windows",
+        "leapmotor_locked",
+        "leapmotor_security",
+        "leapmotor_odometer",
+        "leapmotor_speed",
+        "leapmotor_battery_temperature",
+        "leapmotor_heating",
+        "leapmotor_voltage",
+        "leapmotor_current",
+        "leapmotor_tire_pressure_front_left",
+        "leapmotor_tire_pressure_front_right",
+        "leapmotor_tire_pressure_rear_left",
+        "leapmotor_tire_pressure_rear_right",
+        "leapmotor_plugged",
+        "leapmotor_charging_power_kw",
+        "leapmotor_charging",
+        "leapmotor_tire_pressure_average",
+        "leapmotor_latitude",
+        "leapmotor_longitude"
+      ],
+      "capabilitiesOptions": {
+        "measure_battery": {
+          "title": {
+            "en": "Battery"
+          }
+        },
+        "measure_temperature": {
+          "title": {
+            "en": "Interior temperature"
+          }
+        }
+      },
+      "energy": {
+        "batteries": [
+          "INTERNAL"
+        ]
+      },
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "cloud"
+      ],
+      "images": {
+        "small": "/drivers/car/assets/images/small.png",
+        "large": "/drivers/car/assets/images/large.png",
+        "xlarge": "/drivers/car/assets/images/xlarge.png"
+      },
+      "pair": [
+        {
+          "id": "disclaimer",
+          "navigation": {
+            "next": "certkey"
+          }
+        },
+        {
+          "id": "certkey",
+          "navigation": {
+            "next": "credentials"
+          }
+        },
+        {
+          "id": "credentials",
+          "navigation": {
+            "next": "icon"
+          }
+        },
+        {
+          "id": "icon",
+          "navigation": {
+            "next": "list_devices"
+          }
+        },
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "repair": [
+        {
+          "id": "vehicle_info"
+        }
+      ],
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "Account"
+          },
+          "children": [
+            {
+              "id": "username",
+              "type": "text",
+              "label": {
+                "en": "E-mail address"
+              },
+              "value": ""
+            },
+            {
+              "id": "password",
+              "type": "password",
+              "label": {
+                "en": "Password"
+              },
+              "value": ""
+            },
+            {
+              "id": "operationPassword",
+              "type": "password",
+              "label": {
+                "en": "Vehicle PIN"
+              },
+              "value": ""
+            },
+            {
+              "id": "baseUrl",
+              "type": "text",
+              "label": {
+                "en": "API base URL"
+              },
+              "value": "https://appgateway.leapmotor-international.de"
+            },
+            {
+              "id": "verifySsl",
+              "type": "checkbox",
+              "label": {
+                "en": "Verify server identity (TLS)"
+              },
+              "value": true,
+              "hint": {
+                "en": "Verifies the Leapmotor server's identity using a pinned public key before any data is sent. The Leapmotor gateway uses a private certificate authority and does not send its intermediate certificate, so ordinary certificate-chain validation cannot succeed; key pinning is used instead. Leave this on. Turn it off only if Leapmotor rotates their server key and the app has not been updated yet, and be aware that doing so allows an attacker on your network to read your credentials."
+              }
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Units"
+          },
+          "children": [
+            {
+              "id": "distanceUnit",
+              "type": "dropdown",
+              "label": {
+                "en": "Distance unit"
+              },
+              "hint": {
+                "en": "Choose how distance and speed are shown. Range, odometer and speed will show km/km/h or mi/mph. Tire pressure always stays in bar. Reopen the Homey app after changing to refresh the unit label."
+              },
+              "value": "km",
+              "values": [
+                {
+                  "id": "km",
+                  "label": {
+                    "en": "Kilometers (km, km/h)"
+                  }
+                },
+                {
+                  "id": "mi",
+                  "label": {
+                    "en": "Miles (mi, mph)"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Range correction"
+          },
+          "children": [
+            {
+              "id": "rangeCorrectionEnabled",
+              "type": "checkbox",
+              "label": {
+                "en": "Enable range correction"
+              },
+              "value": false,
+              "hint": {
+                "en": "Cars sometimes report a more optimistic range than you can actually drive. When enabled, Homey lowers the range it receives from the car by your factor before showing it: with a factor of 10%, a reported 300 km is displayed as 270 km (the same percentage applies when range is shown in miles). This only changes the range displayed in Homey, on the device sensor and in flows. Nothing is sent to the car and the official Leapmotor app is not affected."
+              }
+            },
+            {
+              "id": "rangeCorrectionFactor",
+              "type": "number",
+              "label": {
+                "en": "Range correction factor (%)"
+              },
+              "value": 0,
+              "min": 0,
+              "max": 90,
+              "hint": {
+                "en": "The percentage subtracted from the range reported by the car. 0% shows the range exactly as the car reports it."
+              }
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Toggle charge alternative"
+          },
+          "children": [
+            {
+              "id": "chargeToggleMode",
+              "type": "dropdown",
+              "label": {
+                "en": "Start/stop charging method"
+              },
+              "hint": {
+                "en": "Right 193 (Toggle Charge) is not granted on every car. If the start/stop button does nothing, switch to the charge plan workaround. Stop charging then writes a charge plan that only allows charging on Sundays between 18:00 and 18:01 with a 1% limit, which makes the car stop. Start charging deletes that plan again."
+              },
+              "value": "command193",
+              "values": [
+                {
+                  "id": "command193",
+                  "label": {
+                    "en": "Default Toggle Charge (code 193)"
+                  }
+                },
+                {
+                  "id": "chargePlan",
+                  "label": {
+                    "en": "Charge plan workaround (code 190)"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Polling"
+          },
+          "children": [
+            {
+              "id": "pollMinutesDay",
+              "type": "number",
+              "label": {
+                "en": "Daytime interval (minutes)"
+              },
+              "value": 15,
+              "min": 1,
+              "max": 1440
+            },
+            {
+              "id": "pollMinutesNight",
+              "type": "number",
+              "label": {
+                "en": "Nighttime interval (minutes)"
+              },
+              "value": 60,
+              "min": 1,
+              "max": 1440
+            },
+            {
+              "id": "dayStart",
+              "type": "text",
+              "label": {
+                "en": "Day starts at (HH:MM)"
+              },
+              "value": "07:00"
+            },
+            {
+              "id": "nightStart",
+              "type": "text",
+              "label": {
+                "en": "Night starts at (HH:MM)"
+              },
+              "value": "23:00"
+            },
+            {
+              "id": "confirmCommands",
+              "type": "checkbox",
+              "label": {
+                "en": "Confirm commands with extra refreshes"
+              },
+              "value": true
+            },
+            {
+              "id": "debugLogging",
+              "type": "checkbox",
+              "label": {
+                "en": "Debug logging"
+              },
+              "value": false
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Vehicle information"
+          },
+          "children": [
+            {
+              "id": "vehicleInfoOpen",
+              "type": "label",
+              "label": {
+                "en": "Vehicle information page"
+              },
+              "value": "The full list of Modul rights, Access Rights and Capabilities",
+              "hint": {
+                "en": "...are available under the Maintenance menu. Tap [Try to Repair] to retrieve the full vehicle information. This won't affect your current setup in any way."
+              }
+            },
+            {
+              "id": "vehicleModel",
+              "type": "label",
+              "label": {
+                "en": "Model"
+              },
+              "value": "-"
+            },
+            {
+              "id": "vehicleYear",
+              "type": "label",
+              "label": {
+                "en": "Model year"
+              },
+              "value": "-"
+            },
+            {
+              "id": "vehicleName",
+              "type": "label",
+              "label": {
+                "en": "Vehicle name"
+              },
+              "value": "-"
+            },
+            {
+              "id": "vehicleDrive",
+              "type": "label",
+              "label": {
+                "en": "Steering side"
+              },
+              "value": "-"
+            },
+            {
+              "id": "vehicleSeats",
+              "type": "label",
+              "label": {
+                "en": "Seats"
+              },
+              "value": "-"
+            },
+            {
+              "id": "vehicleVin",
+              "type": "label",
+              "label": {
+                "en": "VIN"
+              },
+              "value": "-"
+            },
+            {
+              "id": "vehicleCarId",
+              "type": "label",
+              "label": {
+                "en": "Car ID"
+              },
+              "value": "-"
+            },
+            {
+              "id": "vehicleUserId",
+              "type": "label",
+              "label": {
+                "en": "User ID"
+              },
+              "value": "-"
+            },
+            {
+              "id": "vehicleDeviceId",
+              "type": "label",
+              "label": {
+                "en": "Device ID"
+              },
+              "value": "-"
+            },
+            {
+              "id": "vehicleAppVersion",
+              "type": "label",
+              "label": {
+                "en": "App version"
+              },
+              "value": "-"
+            },
+            {
+              "id": "vehicleApiLanguage",
+              "type": "label",
+              "label": {
+                "en": "API language"
+              },
+              "value": "-"
+            },
+            {
+              "id": "lastUpdate",
+              "type": "label",
+              "label": {
+                "en": "Last update"
+              },
+              "value": "-"
+            },
+            {
+              "id": "lastError",
+              "type": "label",
+              "label": {
+                "en": "Last error"
+              },
+              "value": "-"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

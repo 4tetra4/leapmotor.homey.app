@@ -1,0 +1,195 @@
+<style>
+  .vi { padding: 2px 2px 12px; color: #1b2238; font-size: 13px; }
+  .vi-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 12px; }
+  .vi-title { font-size: 17px; font-weight: 700; }
+  .vi-sub { font-size: 11px; color: #6b7488; margin-top: 2px; }
+  .vi-btn {
+    border: none; border-radius: 10px; background: #2d8cff; color: #fff;
+    font-size: 12px; font-weight: 700; padding: 9px 14px; cursor: pointer;
+  }
+  .vi-btn:disabled { opacity: .55; cursor: default; }
+  .vi-card { background: #fff; border-radius: 14px; border: 1px solid rgba(20,26,46,.08); padding: 12px 12px 6px; margin-bottom: 12px; }
+  .vi-card h3 { margin: 0 0 8px; font-size: 13px; font-weight: 700; letter-spacing: .02em; text-transform: uppercase; color: #4a5470; }
+  .vi-row { display: flex; justify-content: space-between; gap: 12px; padding: 6px 0; border-bottom: 1px solid rgba(20,26,46,.05); }
+  .vi-row:last-child { border-bottom: none; }
+  .vi-key { color: #6b7488; }
+  .vi-val { font-weight: 600; text-align: right; word-break: break-word; }
+  table.vi-table { width: 100%; border-collapse: collapse; }
+  table.vi-table th { text-align: left; font-size: 11px; text-transform: uppercase; color: #6b7488; padding: 4px 6px; border-bottom: 1px solid rgba(20,26,46,.12); }
+  table.vi-table td { padding: 5px 6px; border-bottom: 1px solid rgba(20,26,46,.05); vertical-align: top; }
+  table.vi-table tr:last-child td { border-bottom: none; }
+  .vi-id { width: 46px; font-variant-numeric: tabular-nums; color: #4a5470; }
+  .vi-mark { width: 26px; text-align: center; font-weight: 700; }
+  .vi-yes { color: #1aa251; }
+  .vi-no { color: #c2c8d4; }
+  .vi-desc { color: #6b7488; font-size: 11px; }
+  .vi-pill { display: inline-block; background: #eef3fb; color: #34405c; border-radius: 999px; padding: 2px 9px; font-size: 11px; font-weight: 700; margin-left: 6px; }
+  .vi-empty { color: #6b7488; padding: 8px 2px; }
+  .vi-error { background: #fdecec; color: #a12020; border-radius: 10px; padding: 10px; margin-bottom: 12px; }
+</style>
+<div class="vi">
+  <div class="vi-head">
+    <div>
+      <div class="vi-title">Vehicle information</div>
+      <div class="vi-sub" id="updated">Loading...</div>
+    </div>
+    <button class="vi-btn" id="refresh" type="button">Refresh</button>
+  </div>
+  <div id="error" class="vi-error" style="display:none"></div>
+  <div id="body"></div>
+</div>
+<script type="application/javascript">
+  var bodyEl = document.getElementById('body');
+  var updatedEl = document.getElementById('updated');
+  var errorEl = document.getElementById('error');
+  var refreshBtn = document.getElementById('refresh');
+
+  function safe(fn) { try { return fn(); } catch (err) { return undefined; } }
+
+  function emit(event, data) {
+    return new Promise(function (resolve, reject) {
+      var settled = false;
+      function done(err, result) {
+        if (settled) return;
+        settled = true;
+        if (err) reject(err); else resolve(result);
+      }
+      try {
+        var p = Homey.emit(event, data, done);
+        if (p && typeof p.then === 'function') p.then(function (r) { done(null, r); }, function (e) { done(e); });
+      } catch (err) { done(err); }
+      setTimeout(function () { done(new Error('The request timed out.')); }, 45000);
+    });
+  }
+
+  function esc(value) {
+    return String(value === null || value === undefined ? '-' : value)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  function card(title, badge) {
+    var html = '<div class="vi-card"><h3>' + esc(title);
+    if (badge) html += '<span class="vi-pill">' + esc(badge) + '</span>';
+    return html + '</h3>';
+  }
+
+  function rows(pairs) {
+    var html = '';
+    pairs.forEach(function (pair) {
+      if (pair[1] === undefined || pair[1] === null || pair[1] === '') return;
+      html += '<div class="vi-row"><div class="vi-key">' + esc(pair[0]) + '</div><div class="vi-val">' + esc(pair[1]) + '</div></div>';
+    });
+    return html;
+  }
+
+  function table(list) {
+    if (!list || list.length === 0) return '<div class="vi-empty">No entries reported.</div>';
+    var html = '<table class="vi-table"><thead><tr><th class="vi-id">ID</th><th>Function</th><th class="vi-mark">OK</th></tr></thead><tbody>';
+    list.forEach(function (item) {
+      html += '<tr>'
+        + '<td class="vi-id">' + esc(item.id) + '</td>'
+        + '<td><div>' + esc(item.short) + '</div><div class="vi-desc">' + esc(item.description) + '</div></td>'
+        + '<td class="vi-mark ' + (item.granted ? 'vi-yes' : 'vi-no') + '">' + (item.granted ? '\u2713' : '\u2717') + '</td>'
+        + '</tr>';
+    });
+    return html + '</tbody></table>';
+  }
+
+  function render(info) {
+    if (!info) {
+      bodyEl.innerHTML = '<div class="vi-empty">No vehicle information has been received from the Leapmotor cloud yet. Press Refresh.</div>';
+      updatedEl.textContent = 'Not available';
+      return;
+    }
+    updatedEl.textContent = 'Updated ' + (info.generatedAtText || '-');
+    var html = '';
+    html += card('Vehicle')
+      + rows([
+        ['Model', info.vehicle.model],
+        ['Car type', info.vehicle.carType],
+        ['Model year', info.vehicle.year],
+        ['Name', info.vehicle.name],
+        ['Alias', info.vehicle.alias],
+        ['Plate', info.vehicle.plateNumber],
+        ['Colour', info.vehicle.colour],
+        ['Configuration', info.vehicle.configEdition],
+        ['Steering', info.vehicle.rudder],
+        ['Seats', info.vehicle.seats]
+      ]) + '</div>';
+    html += card('Identifiers')
+      + rows([
+        ['VIN', info.identifiers.vin],
+        ['Car ID', info.identifiers.carId],
+        ['Owner user ID', info.identifiers.ownerUserId],
+        ['Account user ID', info.identifiers.accountUserId],
+        ['Device ID', info.identifiers.deviceId],
+        ['Allocation code', info.identifiers.allocationCode],
+        ['Account', info.identifiers.email]
+      ]) + '</div>';
+    html += card('API')
+      + rows([
+        ['App version', info.connection.appVersion],
+        ['API language', info.connection.apiLanguage],
+        ['Base URL', info.connection.baseUrl],
+        ['Status endpoint', info.connection.statusEndpoint],
+        ['Status segment', info.vehicle.statusPath],
+        ['Channel', info.connection.channel],
+        ['Device type', info.connection.deviceType],
+        ['Source', info.connection.source],
+        ['Encryption', info.connection.encryptionAlgorithm],
+        ['Policy ID', info.connection.policyId]
+      ]) + '</div>';
+    html += card('Sharing')
+      + rows([
+        ['Share type', info.sharing.shareType],
+        ['Shared at', info.sharing.shareTime],
+        ['Expires', info.sharing.expireTime],
+        ['Duration', info.sharing.durationType],
+        ['Mobile number', info.sharing.mobileNumber]
+      ]) + '</div>';
+    html += card('Module rights', info.totals.moduleRightsGranted + '/' + info.totals.moduleRightsTotal)
+      + table(info.moduleRights) + '</div>';
+    html += card('Rights', info.totals.rightsGranted + '/' + info.totals.rightsTotal)
+      + table(info.rights) + '</div>';
+    html += card('Capabilities', info.totals.abilitiesGranted + '/' + info.totals.abilitiesTotal)
+      + table(info.abilities) + '</div>';
+    bodyEl.innerHTML = html;
+  }
+
+  function showError(message) {
+    if (!message) {
+      errorEl.style.display = 'none';
+      errorEl.textContent = '';
+      return;
+    }
+    errorEl.style.display = 'block';
+    errorEl.textContent = String(message);
+  }
+
+  function load(force) {
+    refreshBtn.disabled = true;
+    showError(null);
+    if (force) updatedEl.textContent = 'Contacting the Leapmotor cloud...';
+    emit(force ? 'refresh_vehicle_info' : 'get_vehicle_info')
+      .then(function (result) {
+        refreshBtn.disabled = false;
+        if (result && result.ok === false) {
+          showError(result.error || 'The vehicle information could not be loaded.');
+          render(result.info || null);
+          return;
+        }
+        render(result && result.info ? result.info : result);
+      })
+      .catch(function (err) {
+        refreshBtn.disabled = false;
+        showError(err && err.message ? err.message : err);
+      });
+  }
+
+  refreshBtn.addEventListener('click', function () { load(true); });
+
+  safe(function () { Homey.setTitle('Vehicle information'); });
+  load(false);
+  safe(function () { Homey.ready(); });
+</script>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a29d6a28fa67b84d',t:'MTc4NjUxNjA1MQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>

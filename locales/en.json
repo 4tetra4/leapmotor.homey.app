@@ -1,0 +1,14 @@
+{
+  "errors": {
+    "no_vin": "No VIN is configured for this vehicle. Open the device settings and fill in the VIN.",
+    "no_pin": "No vehicle PIN configured. Remote commands require the PIN you use in the Leapmotor app.",
+    "no_certificates": "The bundled Leapmotor app certificates are missing or invalid.",
+    "login_failed": "Could not sign in to the Leapmotor cloud.",
+    "command_failed": "The Leapmotor cloud rejected the command."
+  },
+  "pair": {
+    "title": "Connect your Leapmotor account",
+    "subtitle": "Use the same e-mail address and password as in the Leapmotor mobile app.",
+    "signin": "Sign in"
+  }
+}

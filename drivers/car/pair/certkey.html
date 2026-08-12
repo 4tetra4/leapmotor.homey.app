@@ -1,0 +1,119 @@
+<style>
+  .lm { padding: 2px 2px 8px; color: #2b3245; }
+  .lm-intro { font-size: 14px; line-height: 1.55; color: #4a5266; margin: 0 0 14px; }
+  .lm-intro strong { color: #1b2238; }
+  .lm-field { margin-bottom: 14px; }
+  .lm-field label { display: block; font-size: 13px; font-weight: 600; color: #1b2238; margin-bottom: 6px; }
+  .lm-field textarea {
+    width: 100%; box-sizing: border-box; min-height: 84px; resize: vertical;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 11.5px; line-height: 1.4; padding: 10px 12px;
+    border-radius: 10px; border: 1px solid rgba(20, 26, 46, 0.14);
+    background: #f9fafc; color: #1b2238;
+  }
+  .lm-field textarea:focus { outline: none; border-color: #2d8cff; background: #fff; }
+  .lm-download { width: 100%; box-sizing: border-box; margin-bottom: 16px; }
+  .lm-state { font-size: 12.5px; margin: 8px 2px 0; min-height: 16px; }
+  .lm-ok { color: #1a8a3b; }
+  .lm-err { color: #e4002b; }
+  .lm-hint { font-size: 12px; color: #6b7280; margin: 10px 2px 0; line-height: 1.45; }
+</style>
+
+<div class="lm">
+  <p class="lm-intro">
+   Press the button to fetch the key and certificate from the public certificate repository. Alternatively you can paste them manually.
+  </p>
+
+  <button id="download" class="homey-button-primary-full lm-download">Download certificate &amp; key</button>
+
+  <div class="lm-field">
+    <label for="cert">Certificate (app.crt)</label>
+    <textarea id="cert" spellcheck="false" placeholder="-----BEGIN CERTIFICATE-----&#10;..."></textarea>
+  </div>
+
+  <div class="lm-field">
+    <label for="key">Private key (app.key)</label>
+    <textarea id="key" spellcheck="false" placeholder="-----BEGIN PRIVATE KEY-----&#10;..."></textarea>
+  </div>
+
+  <p id="state" class="lm-state"></p>
+</div>
+
+<script type="application/javascript">
+  var downloadButton = document.getElementById('download');
+  var certEl = document.getElementById('cert');
+  var keyEl = document.getElementById('key');
+  var stateEl = document.getElementById('state');
+  var saveTimer = null;
+
+  function safe(fn) { try { return fn(); } catch (err) { return undefined; } }
+
+  function emit(event, data) {
+    return new Promise(function (resolve, reject) {
+      var settled = false;
+      function done(err, result) {
+        if (settled) return;
+        settled = true;
+        if (err) reject(err); else resolve(result);
+      }
+      try {
+        var p = Homey.emit(event, data, done);
+        if (p && typeof p.then === 'function') p.then(function (r) { done(null, r); }, function (e) { done(e); });
+      } catch (err) { done(err); }
+      setTimeout(function () { done(new Error('The app did not respond in time.')); }, 60000);
+    });
+  }
+
+  function setState(ok, text) {
+    stateEl.textContent = text;
+    stateEl.className = 'lm-state ' + (ok ? 'lm-ok' : (text ? 'lm-err' : ''));
+  }
+
+  function syncCerts() {
+    if (saveTimer) clearTimeout(saveTimer);
+    saveTimer = setTimeout(function () {
+      emit('set_certs', { cert: certEl.value, key: keyEl.value }).catch(function () {});
+    }, 400);
+  }
+
+  function download() {
+    downloadButton.disabled = true;
+    downloadButton.textContent = 'Downloading...';
+    setState(false, '');
+    emit('fetch_certs', {})
+      .then(function (res) {
+        downloadButton.disabled = false;
+        downloadButton.textContent = 'Download certificate & key';
+        if (res && res.ok) {
+          certEl.value = res.cert;
+          keyEl.value = res.key;
+          setState(true, 'Certificate and key downloaded and saved.');
+          syncCerts();
+        } else {
+          setState(false, (res && res.error) || 'Download failed.');
+        }
+      })
+      .catch(function (err) {
+        downloadButton.disabled = false;
+        downloadButton.textContent = 'Download certificate & key';
+        setState(false, (err && err.message) || 'Download failed.');
+      });
+  }
+
+  downloadButton.addEventListener('click', download);
+  certEl.addEventListener('input', syncCerts);
+  keyEl.addEventListener('input', syncCerts);
+
+  emit('get_certs', {})
+    .then(function (res) {
+      if (res) {
+        if (res.cert) certEl.value = res.cert;
+        if (res.key) keyEl.value = res.key;
+      }
+    })
+    .catch(function () {});
+
+  safe(function () { Homey.setTitle('Certificate & key'); });
+  safe(function () { Homey.ready(); });
+</script>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a2a2a74d099c86bf',t:'MTc4NjU3MDk4NA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
