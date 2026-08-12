@@ -7,7 +7,7 @@ What you get:
 	45  capabilities	18 controls and 27 live readings on the device tile
 	80  vehicle signals	decoded from the raw status feed
 
-Highlights:  SOC with 0.1% precision, custom range, unlimited geofencing (latitude/longitude), plug type detection (CCS / Type 2), battery heating, etc.
+Highlights:  SOC with 0.1% precision, custom range, unlimited geofencing (latitude/longitude), plug type detection (CCS / Type 2), battery temperature, battery heating, etc.
 
 
 IDEAS TO GET YOU STARTED
