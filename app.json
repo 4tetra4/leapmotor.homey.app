@@ -3702,7 +3702,7 @@
               },
               "value": false,
               "hint": {
-                "en": "Your vehicle might report a more optimistic range than you can actually drive. When enabled, it lowers the range displayed in the Homey app. This might help you with more accurate planning. It does not change your actual range}
+                "en": "Your vehicle might report a more optimistic range than you can actually drive. When enabled, it lowers the range displayed in the Homey app. This might help you with more accurate planning. It does not change your actual range"}
             },
             {
               "id": "rangeCorrectionFactor",
