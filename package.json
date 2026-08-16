@@ -2,6 +2,7 @@
   "name": "com.leapmotor",
   "version": "0.0.3",
   "description": "Give your Leapmotor a Home[y]",
+  "license": "GPL-3.0-or-later",
   "main": "app.js",
   "private": true,
   "engines": {
