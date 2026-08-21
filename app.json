@@ -25,7 +25,7 @@
       "charging",
       "C10",
       "B10",
-      "B33",
+      "B05",
       "T03",
       "C16"
     ]
@@ -1240,7 +1240,7 @@
             "name": "state",
             "type": "string",
             "title": {
-              "en": "State"
+              "en": "state"
             },
             "example": "opened"
           }
@@ -1288,7 +1288,7 @@
             "type": "dropdown",
             "name": "state",
             "title": {
-              "en": "State"
+              "en": "Opened/Closed"
             },
             "values": [
               {

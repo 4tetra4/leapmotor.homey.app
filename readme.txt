@@ -20,7 +20,7 @@ IDEAS TO GET YOU STARTED
 
 
 SETUP: USE A SECOND ACCOUNT
----------------------------
+
 Do not log into homey with your main Leapmotor account. Leapmotor can block unofficial access without warning, and you do not want to lose the app thatopens your car.
 
   1. Create a NEW Leapmotor account in the Leapmotor mobile app. Use a second
@@ -37,14 +37,14 @@ The PIN is optional. Leave it blank and the app is read-only, all the sensor dat
 
 
 BEFORE YOU START - PLEASE READ
-------------------------------
+
 - Unofficial and unsupported. It uses a non-official API that can change, break or behave unpredictably at any time. Verify in a safe environment what it does before you rely on it. 
 - Rate limits are real. Too much polling or too many commands can get an account temporarily blocked. Keep it reasonable.
 - You are in charge. You accept responsibility for anything that follows vehicle damage, accidents, account locks or data issues.
 
 
 KNOWN LIMITS AND HONEST SMALL PRINT
------------------------------------
+
 - Tested on a B10. Other models (B05, C10, T03, C16) should work but may have per-vehicle quirks
 - The Leapmotor cryptography is heavy for older Homeys. On an early-2016 Homey it works, but it can hiccup if you ask it to do several things at once. Give commands a moment to breathe.
 - Not everything works on every vehicle: seat adjustment, sentry, restarting the Bluetooth key are the usual suspects.
