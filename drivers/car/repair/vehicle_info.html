@@ -8,6 +8,9 @@
     font-size: 12px; font-weight: 700; padding: 9px 14px; cursor: pointer;
   }
   .vi-btn:disabled { opacity: .55; cursor: default; }
+  .vi-btn-ghost {
+    border: 1px solid rgba(20,26,46,.18); background: #fff; color: #1b2238;
+  }
   .vi-card { background: #fff; border-radius: 14px; border: 1px solid rgba(20,26,46,.08); padding: 12px 12px 6px; margin-bottom: 12px; }
   .vi-card h3 { margin: 0 0 8px; font-size: 13px; font-weight: 700; letter-spacing: .02em; text-transform: uppercase; color: #4a5470; }
   .vi-row { display: flex; justify-content: space-between; gap: 12px; padding: 6px 0; border-bottom: 1px solid rgba(20,26,46,.05); }
@@ -26,6 +29,24 @@
   .vi-pill { display: inline-block; background: #eef3fb; color: #34405c; border-radius: 999px; padding: 2px 9px; font-size: 11px; font-weight: 700; margin-left: 6px; }
   .vi-empty { color: #6b7488; padding: 8px 2px; }
   .vi-error { background: #fdecec; color: #a12020; border-radius: 10px; padding: 10px; margin-bottom: 12px; }
+  .vi-cert-card { background: #fff; border-radius: 14px; border: 1px solid rgba(20,26,46,.08); padding: 12px; margin-bottom: 12px; }
+  .vi-cert-card h3 { margin: 0 0 8px; font-size: 13px; font-weight: 700; letter-spacing: .02em; text-transform: uppercase; color: #4a5470; }
+  .vi-cert-hint { font-size: 12px; color: #6b7488; line-height: 1.5; margin-bottom: 10px; }
+  .vi-cert-actions { display: flex; gap: 8px; margin-bottom: 12px; }
+  .vi-cert-actions .vi-btn { flex: 1 1 0; }
+  .vi-cert-label { display: block; font-size: 12px; font-weight: 700; color: #1b2238; margin: 0 0 5px; }
+  .vi-cert-field { margin-bottom: 10px; }
+  .vi-cert-field textarea {
+    width: 100%; box-sizing: border-box; min-height: 84px; resize: vertical;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 11px; line-height: 1.4; padding: 9px 11px;
+    border-radius: 10px; border: 1px solid rgba(20,26,46,.14);
+    background: #f9fafc; color: #1b2238;
+  }
+  .vi-cert-field textarea:focus { outline: none; border-color: #2d8cff; background: #fff; }
+  .vi-cert-state { font-size: 12px; margin: 6px 1px 0; min-height: 15px; }
+  .vi-cert-ok { color: #1a8a3b; }
+  .vi-cert-err { color: #a12020; }
 </style>
 <div class="vi">
   <div class="vi-head">
@@ -37,16 +58,44 @@
   </div>
   <div id="error" class="vi-error" style="display:none"></div>
   <div id="body"></div>
+  <div class="vi-cert-card">
+    <h3>App certificate &amp; key</h3>
+    <div class="vi-cert-hint">
+      If the Leapmotor app certificate or private key changes, you can update it here without removing or reinstalling
+      the app. Press Download to fetch the current files (the download links are read from the link file in the app's
+      repository), or paste them manually and press Save. The new certificate and key are applied immediately. Leave the
+      fields untouched to keep the current values.
+    </div>
+    <div class="vi-cert-actions">
+      <button class="vi-btn" id="certDownload" type="button">Download certificate &amp; key</button>
+      <button class="vi-btn vi-btn-ghost" id="certSave" type="button">Save</button>
+    </div>
+    <div class="vi-cert-field">
+      <label class="vi-cert-label" for="cert">Certificate (app.crt)</label>
+      <textarea id="cert" spellcheck="false" placeholder="-----BEGIN CERTIFICATE-----&#10;..."></textarea>
+    </div>
+    <div class="vi-cert-field">
+      <label class="vi-cert-label" for="key">Private key (app.key)</label>
+      <textarea id="key" spellcheck="false" placeholder="-----BEGIN PRIVATE KEY-----&#10;..."></textarea>
+    </div>
+    <div id="certState" class="vi-cert-state"></div>
+  </div>
 </div>
 <script type="application/javascript">
   var bodyEl = document.getElementById('body');
   var updatedEl = document.getElementById('updated');
   var errorEl = document.getElementById('error');
   var refreshBtn = document.getElementById('refresh');
+  var certDownloadBtn = document.getElementById('certDownload');
+  var certSaveBtn = document.getElementById('certSave');
+  var certEl = document.getElementById('cert');
+  var keyEl = document.getElementById('key');
+  var certStateEl = document.getElementById('certState');
+  var certBusy = false;
 
   function safe(fn) { try { return fn(); } catch (err) { return undefined; } }
 
-  function emit(event, data) {
+  function emit(event, data, timeoutMs) {
     return new Promise(function (resolve, reject) {
       var settled = false;
       function done(err, result) {
@@ -58,7 +107,7 @@
         var p = Homey.emit(event, data, done);
         if (p && typeof p.then === 'function') p.then(function (r) { done(null, r); }, function (e) { done(e); });
       } catch (err) { done(err); }
-      setTimeout(function () { done(new Error('The request timed out.')); }, 45000);
+      setTimeout(function () { done(new Error('The request timed out.')); }, timeoutMs || 45000);
     });
   }
 
@@ -186,10 +235,86 @@
       });
   }
 
+  function setCertState(ok, text) {
+    certStateEl.textContent = text;
+    certStateEl.className = 'vi-cert-state ' + (ok ? 'vi-cert-ok' : (text ? 'vi-cert-err' : ''));
+  }
+
+  function setCertButtons(disabled) {
+    certDownloadBtn.disabled = disabled;
+    certSaveBtn.disabled = disabled;
+  }
+
+  function loadCerts() {
+    emit('get_certs', {})
+      .then(function (res) {
+        if (res) {
+          if (res.cert) certEl.value = res.cert;
+          if (res.key) keyEl.value = res.key;
+        }
+      })
+      .catch(function () {});
+  }
+
+  function downloadCerts() {
+    if (certBusy) return;
+    certBusy = true;
+    setCertButtons(true);
+    setCertState(false, '');
+    safe(function () { Homey.showLoadingOverlay(); });
+    emit('fetch_certs', {}, 120000)
+      .then(function (res) {
+        safe(function () { Homey.hideLoadingOverlay(); });
+        certBusy = false;
+        setCertButtons(false);
+        if (res && res.ok) {
+          certEl.value = res.cert;
+          keyEl.value = res.key;
+          setCertState(true, 'Certificate and key downloaded and applied.');
+        } else {
+          setCertState(false, (res && res.error) || 'Download failed.');
+        }
+      })
+      .catch(function (err) {
+        safe(function () { Homey.hideLoadingOverlay(); });
+        certBusy = false;
+        setCertButtons(false);
+        setCertState(false, (err && err.message) || 'Download failed.');
+      });
+  }
+
+  function saveCerts() {
+    if (certBusy) return;
+    certBusy = true;
+    setCertButtons(true);
+    setCertState(false, '');
+    emit('set_certs', { cert: certEl.value, key: keyEl.value }, 60000)
+      .then(function (res) {
+        certBusy = false;
+        setCertButtons(false);
+        if (res && res.ok) {
+          setCertState(true, 'Saved. The app now uses this certificate and key.');
+          return;
+        }
+        var parts = [];
+        if (res && res.certValid === false && certEl.value.trim()) parts.push('The certificate is not a valid PEM certificate.');
+        if (res && res.keyValid === false && keyEl.value.trim()) parts.push('The private key is not a valid PEM key.');
+        if (!parts.length) parts.push('Nothing was saved. Paste a valid certificate and private key, or press Download certificate & key.');
+        setCertState(false, parts.join(' '));
+      })
+      .catch(function (err) {
+        certBusy = false;
+        setCertButtons(false);
+        setCertState(false, (err && err.message) || 'Save failed.');
+      });
+  }
+
   refreshBtn.addEventListener('click', function () { load(true); });
+  certDownloadBtn.addEventListener('click', downloadCerts);
+  certSaveBtn.addEventListener('click', saveCerts);
 
   safe(function () { Homey.setTitle('Vehicle information'); });
   load(false);
+  loadCerts();
   safe(function () { Homey.ready(); });
 </script>
-<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a29d6a28fa67b84d',t:'MTc4NjUxNjA1MQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>

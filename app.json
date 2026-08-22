@@ -915,7 +915,7 @@
             "min": -90,
             "max": 90,
             "placeholder": {
-              "en": "51.50"
+              "en": "-90 - 90"
             }
           },
           {
@@ -927,7 +927,7 @@
             "min": -180,
             "max": 180,
             "placeholder": {
-              "en": "7.50"
+              "en": "-180 - 180"
             }
           },
           {
@@ -939,7 +939,7 @@
             "min": 10,
             "max": 100000,
             "placeholder": {
-              "en": "500"
+              "en": "10 - 100000"
             }
           },
           {
@@ -1018,7 +1018,7 @@
             "min": -90,
             "max": 90,
             "placeholder": {
-              "en": "51.50"
+              "en": "-90 - 90"
             }
           },
           {
@@ -1030,7 +1030,7 @@
             "min": -180,
             "max": 180,
             "placeholder": {
-              "en": "7.50"
+              "en": "-180 - 180"
             }
           },
           {
@@ -1042,7 +1042,7 @@
             "min": 10,
             "max": 100000,
             "placeholder": {
-              "en": "500"
+              "en": "10 - 100000"
             }
           },
           {
@@ -1121,7 +1121,7 @@
             "min": 0,
             "max": 200,
             "placeholder": {
-              "en": "3.0"
+              "en": "0 - 200"
             }
           }
         ]
@@ -1373,7 +1373,7 @@
             "min": 1,
             "max": 10000,
             "placeholder": {
-              "en": "30"
+              "en": "1 - 10000"
             }
           },
           {
@@ -1557,7 +1557,7 @@
             "min": 0.5,
             "max": 5,
             "placeholder": {
-              "en": "2.0"
+              "en": "0.5 - 5"
             }
           }
         ]
@@ -1739,7 +1739,7 @@
             "min": 0,
             "max": 6000,
             "placeholder": {
-              "en": "30"
+              "en": "0 - 6000"
             }
           },
           {
@@ -1972,7 +1972,7 @@
             "min": -90,
             "max": 90,
             "placeholder": {
-              "en": "51.50"
+              "en": "-90 - 90"
             }
           },
           {
@@ -1984,7 +1984,7 @@
             "min": 0.0001,
             "max": 5,
             "placeholder": {
-              "en": "0.01"
+              "en": "0.0001 - 5"
             }
           },
           {
@@ -1996,7 +1996,7 @@
             "min": -180,
             "max": 180,
             "placeholder": {
-              "en": "7.50"
+              "en": "-180 - 180"
             }
           },
           {
@@ -2008,7 +2008,7 @@
             "min": 0.0001,
             "max": 5,
             "placeholder": {
-              "en": "0.01"
+              "en": "0.0001 - 5"
             }
           }
         ]
@@ -2036,7 +2036,7 @@
             "min": -90,
             "max": 90,
             "placeholder": {
-              "en": "51.50"
+              "en": "-90 - 90"
             }
           },
           {
@@ -2048,7 +2048,7 @@
             "min": -180,
             "max": 180,
             "placeholder": {
-              "en": "7.50"
+              "en": "-180 - 180"
             }
           },
           {
@@ -2060,7 +2060,7 @@
             "min": 10,
             "max": 100000,
             "placeholder": {
-              "en": "500"
+              "en": "10 - 100000"
             }
           },
           {
@@ -2121,7 +2121,7 @@
             "min": 1,
             "max": 10000,
             "placeholder": {
-              "en": "30"
+              "en": "1 - 10000"
             }
           },
           {
@@ -2228,7 +2228,7 @@
             "min": 0.5,
             "max": 5,
             "placeholder": {
-              "en": "2.0"
+              "en": "0.5 - 5"
             }
           }
         ]
@@ -2256,7 +2256,7 @@
             "min": 1,
             "max": 1000,
             "placeholder": {
-              "en": "100"
+              "en": "1 - 1000"
             }
           },
           {
@@ -2305,7 +2305,7 @@
             "min": 0,
             "max": 200,
             "placeholder": {
-              "en": "3.0"
+              "en": "0 - 200"
             }
           }
         ]
@@ -2333,7 +2333,7 @@
             "min": 0,
             "max": 6000,
             "placeholder": {
-              "en": "30"
+              "en": "0 - 6000"
             }
           },
           {
@@ -3204,7 +3204,7 @@
             "min": 1,
             "max": 5400,
             "placeholder": {
-              "en": "10 - 5400"
+              "en": "1 - 5400"
             }
           },
           {
@@ -3544,7 +3544,7 @@
             "min": -90,
             "max": 90,
             "placeholder": {
-              "en": "51.4441"
+              "en": "-90 - 90"
             }
           },
           {
@@ -3556,7 +3556,7 @@
             "min": -180,
             "max": 180,
             "placeholder": {
-              "en": "4.9184"
+              "en": "-180 - 180"
             }
           },
           {
@@ -3659,10 +3659,10 @@
       },
       "pair": [
         {
-          "id": "disclaimer",
-          "navigation": {
-            "next": "certkey"
-          }
+          "id": "disclaimer"
+        },
+        {
+          "id": "disclaimer_blocked"
         },
         {
           "id": "certkey",
@@ -3798,7 +3798,8 @@
               },
               "value": false,
               "hint": {
-                "en": "Your vehicle might report a more optimistic range than you can actually drive. When enabled, it lowers the range displayed in the Homey app. This might help you with more accurate planning. It does not change your actual range"}
+                "en": "Your vehicle might report a more optimistic range than you can actually drive. When enabled, it lowers the range displayed in the Homey app. This might help you with more accurate planning. It does not change your actual range"
+              }
             },
             {
               "id": "rangeCorrectionFactor",
@@ -3922,7 +3923,7 @@
               },
               "value": "The full list of Modul rights, Access Rights and Capabilities",
               "hint": {
-                "en": "...are available under the Maintenance menu. Tap [Try to Repair] to retrieve the full vehicle information. This won't affect your current setup in any way."
+                "en": "...are available under the Maintenance menu. Tap [Try to Repair] to retrieve the full vehicle information, and to download or paste an updated app certificate and key if they ever change. This won't affect your current setup in any way."
               }
             },
             {
