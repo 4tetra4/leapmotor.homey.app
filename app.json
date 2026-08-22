@@ -1158,6 +1158,38 @@
         ]
       },
       {
+        "id": "fully_charged",
+        "title": {
+          "en": "Fully charged"
+        },
+        "highlight": true,
+        "tokens": [
+          {
+            "name": "soc",
+            "type": "number",
+            "title": {
+              "en": "SOC %"
+            },
+            "example": 99.9
+          },
+          {
+            "name": "range",
+            "type": "number",
+            "title": {
+              "en": "Range km"
+            },
+            "example": 300
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          }
+        ]
+      },
+      {
         "id": "charging_started",
         "title": {
           "en": "Charging started"
@@ -3143,6 +3175,70 @@
             "type": "device",
             "name": "device",
             "filter": "driver_id=car"
+          }
+        ]
+      },
+      {
+        "id": "change_refresh_rate",
+        "title": {
+          "en": "Change refresh rate"
+        },
+        "titleFormatted": {
+          "en": "Refresh every [[rate]] [[unit]] for [[duration]] minutes"
+        },
+        "hint": {
+          "en": "Be careful, high refresh rate can block your Leapmotor account"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=car"
+          },
+          {
+            "type": "number",
+            "name": "rate",
+            "title": {
+              "en": "Refresh rate"
+            },
+            "min": 1,
+            "max": 5400,
+            "placeholder": {
+              "en": "10 - 5400"
+            }
+          },
+          {
+            "type": "dropdown",
+            "name": "unit",
+            "title": {
+              "en": "Rate unit"
+            },
+            "values": [
+              {
+                "id": "seconds",
+                "title": {
+                  "en": "Seconds"
+                }
+              },
+              {
+                "id": "minutes",
+                "title": {
+                  "en": "Minutes"
+                }
+              }
+            ]
+          },
+          {
+            "type": "number",
+            "name": "duration",
+            "title": {
+              "en": "Duration (minutes)"
+            },
+            "min": 1,
+            "max": 1440,
+            "placeholder": {
+              "en": "1 - 1440"
+            }
           }
         ]
       },

@@ -105,6 +105,11 @@ class LeapmotorApp extends Homey.App {
       device.getSetting('chargeToggleMode') === 'chargePlan' ? 'stop_charging_plan_block' : 'stop_charging'
     ));
     this._action('refresh_status', (device) => device.refreshStatus(true));
+    this._action('change_refresh_rate', (device, args) => device.setTemporaryRefreshRate(
+      Number(args.rate),
+      args.unit,
+      Number(args.duration)
+    ));
     this._action('set_climate', (device, args) => device.runCommand('ac_on', {
       temperature: args.temperature
     }));
@@ -486,7 +491,7 @@ class LeapmotorApp extends Homey.App {
       this.error(`Could not register data_stale: ${err.message}`);
     }
     const alwaysTrue = async () => true;
-    ['charging_completed', 'charging_started', 'charging_stopped', 'car_parked', 'car_moving', 'car_locked', 'car_unlocked'].forEach((id) => {
+    ['charging_completed', 'charging_started', 'charging_stopped', 'car_parked', 'car_moving', 'car_locked', 'car_unlocked', 'fully_charged'].forEach((id) => {
       try {
         this.homey.flow.getDeviceTriggerCard(id).registerRunListener(alwaysTrue);
       } catch (err) {

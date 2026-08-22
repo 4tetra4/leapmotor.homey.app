@@ -29,6 +29,10 @@ const UNIT_STORE_KEY = 'distanceUnitApplied';
 const OPTIONS_LAYOUT = 2;
 const ACK_TIMEOUT_MS = 8000;
 const CONFIRM_DELAYS_MS = [4000, 10000, 22000];
+const FULLY_CHARGED_THRESHOLD = 99.9;
+const MIN_REFRESH_INTERVAL_MS = 10 * 1000;
+const MAX_REFRESH_INTERVAL_MS = 90 * 60 * 1000;
+const MAX_REFRESH_DURATION_MIN = 24 * 60;
 const COMMAND_METHODS = ['executeCommand', 'sendCommand', 'runCommand', 'remoteControl', 'sendRemoteCommand', 'command'];
 const RAW_COMMAND_METHODS = ['executeRawCommand', 'sendRawCommand', 'rawCommand', 'remoteControlRaw'];
 const STATUS_METHODS = ['getVehicleStatus', 'getStatus', 'vehicleStatus', 'fetchVehicleStatus'];
@@ -102,6 +106,8 @@ class CarDevice extends Homey.Device {
     this._failureCount = 0;
     this._confirmTimers = new Map();
     this._pendingCommands = new Map();
+    this._tempRefreshIntervalMs = null;
+    this._tempRefreshUntil = null;
     this._lastUpdateAt = this.getStoreValue('lastUpdateAt') || null;
     this._lastRangeKm = this.getStoreValue('lastRangeKm');
     if (typeof this._lastRangeKm !== 'number' || !Number.isFinite(this._lastRangeKm)) this._lastRangeKm = null;
@@ -148,6 +154,8 @@ class CarDevice extends Homey.Device {
       this.homey.clearTimeout(this._vehicleInfoTimer);
       this._vehicleInfoTimer = null;
     }
+    this._tempRefreshIntervalMs = null;
+    this._tempRefreshUntil = null;
   }
   async onSettings({ oldSettings, newSettings, changedKeys }) {
     const relevant = changedKeys.filter((key) => !INFO_SETTINGS.includes(key));
@@ -444,11 +452,25 @@ class CarDevice extends Homey.Device {
       this.homey.clearTimeout(this._refreshTimer);
       this._refreshTimer = null;
     }
-    const delay = Number.isFinite(delayMs)
-      ? Math.max(delayMs, 1000)
-      : Math.max(60 * this._currentIntervalMinutes() * 1000, 60000);
+    let delay;
+    if (Number.isFinite(delayMs)) {
+      delay = Math.max(delayMs, 1000);
+    } else if (this._tempRefreshIntervalMs && this._tempRefreshUntil && Date.now() < this._tempRefreshUntil) {
+      const remaining = this._tempRefreshUntil - Date.now();
+      delay = Math.min(this._tempRefreshIntervalMs, Math.max(remaining, 1000));
+    } else {
+      if (this._tempRefreshUntil && Date.now() >= this._tempRefreshUntil) {
+        this._tempRefreshUntil = null;
+        this._tempRefreshIntervalMs = null;
+      }
+      delay = Math.max(60 * this._currentIntervalMinutes() * 1000, 60000);
+    }
     this._refreshTimer = this.homey.setTimeout(async () => {
       this._refreshTimer = null;
+      if (this._tempRefreshUntil && Date.now() >= this._tempRefreshUntil) {
+        this._tempRefreshUntil = null;
+        this._tempRefreshIntervalMs = null;
+      }
       try {
         await this.refreshStatus(false);
       } catch (err) {
@@ -456,6 +478,24 @@ class CarDevice extends Homey.Device {
       }
       this._scheduleNextRefresh();
     }, delay);
+  }
+  async setTemporaryRefreshRate(rate, unit, durationMinutes) {
+    const rateNumber = Number(rate);
+    const durationNumber = Number(durationMinutes);
+    if (!Number.isFinite(rateNumber) || rateNumber <= 0) {
+      throw new Error('Enter a refresh rate between 10 seconds and 90 minutes.');
+    }
+    if (!Number.isFinite(durationNumber) || durationNumber <= 0) {
+      throw new Error('Enter a duration in minutes of at least 1.');
+    }
+    const intervalMs = unit === 'minutes' ? rateNumber * 60000 : rateNumber * 1000;
+    const clampedIntervalMs = Math.min(Math.max(intervalMs, MIN_REFRESH_INTERVAL_MS), MAX_REFRESH_INTERVAL_MS);
+    const clampedDurationMs = Math.min(Math.max(durationNumber, 1), MAX_REFRESH_DURATION_MIN) * 60000;
+    this._tempRefreshIntervalMs = clampedIntervalMs;
+    this._tempRefreshUntil = Date.now() + clampedDurationMs;
+    this.log(`Temporary refresh rate: ${Math.round(clampedIntervalMs / 1000)} seconds for ${Math.round(clampedDurationMs / 60000)} minutes.`);
+    this._scheduleNextRefresh(1000);
+    return true;
   }
   _clearConfirmation(capability) {
     const timer = this._confirmTimers.get(capability);
@@ -620,6 +660,7 @@ class CarDevice extends Homey.Device {
     const previousDoors = this.getCapabilityValue('leapmotor_doors');
     const previousBoot = this.getCapabilityValue('leapmotor_boot_control');
     const previousSunshade = this.getCapabilityValue('leapmotor_sunshade');
+    const previousSoc = this.getCapabilityValue('measure_battery');
     const isImperial = this._isImperial();
     const prevPressures = {
       front_left: this.getCapabilityValue('leapmotor_tire_pressure_front_left'),
@@ -752,6 +793,15 @@ class CarDevice extends Homey.Device {
           await this.homey.flow.getDeviceTriggerCard('charging_completed').trigger(this, { soc: soc || 0, range: newRange || 0 }, {});
         } catch (err) {
         }
+      }
+    }
+    if (typeof previousSoc === 'number' && Number.isFinite(previousSoc)
+      && typeof soc === 'number' && Number.isFinite(soc)
+      && previousSoc < FULLY_CHARGED_THRESHOLD && soc >= FULLY_CHARGED_THRESHOLD) {
+      try {
+        await this.homey.flow.getDeviceTriggerCard('fully_charged').trigger(this, { soc, range: newRange || 0 }, {});
+      } catch (err) {
+        this.error('Failed to trigger the fully charged card:', err.message);
       }
     }
     const openingTriggers = [];
