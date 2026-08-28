@@ -1,0 +1,14 @@
+.git
+.github
+.homeybuild
+.cache
+*.log
+*.md
+!README.md
+node_modules/.cache
+node_modules/node-forge/dist/forge.all.min.js
+node_modules/node-forge/dist/forge.all.min.js.map
+node_modules/node-forge/dist/forge.min.js.map
+node_modules/node-forge/dist/prime.worker*.js
+node_modules/node-forge/dist/prime.worker*.js.map
+node_modules/node-forge/flash

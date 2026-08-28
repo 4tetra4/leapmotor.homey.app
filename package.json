@@ -1,0 +1,21 @@
+{
+  "name": "zperx.leapmotor",
+  "version": "0.0.3",
+  "description": "Give your Leapmotor a Home[y]",
+  "license": "GPL-3.0-or-later",
+  "main": "app.js",
+  "private": true,
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "node-forge": "^1.3.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "validate": "homey app validate --level publish",
+    "run": "homey app run",
+    "install-app": "homey app install",
+    "install:prod": "npm ci --omit=dev --ignore-scripts"
+  }
+}

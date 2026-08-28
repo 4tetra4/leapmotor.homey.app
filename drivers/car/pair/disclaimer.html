@@ -1,0 +1,113 @@
+<style>
+  .lm { padding: 2px 2px 8px; color: #2b3245; }
+  .lm-icon { display: flex; justify-content: center; margin: 2px 0 14px; }
+  .lm-icon svg { width: 58px; height: 58px; display: block; }
+  .lm-h1 { font-size: 16px; font-weight: 700; color: #1b2238; margin: 0 0 14px; text-align: center; }
+  .lm-panel { background: #fff; border: 1px solid #e7eaf0; border-radius: 12px; padding: 2px 14px; margin: 0 0 16px; }
+  .lm-row { padding: 12px 0; border-bottom: 1px solid #eef0f4; }
+  .lm-row:last-child { border-bottom: 0; }
+  .lm-t { font-weight: 700; font-size: 14px; color: #1b2238; }
+  .lm-d { font-size: 13px; line-height: 1.5; color: #5a6376; margin-top: 3px; }
+  .lm-ack {
+    display: flex; align-items: flex-start; gap: 11px;
+    background: #f4f6fb; border-radius: 12px; padding: 13px 15px;
+    margin: 0 0 16px;
+  }
+  .lm-ack input { width: 21px; height: 21px; margin-top: 1px; flex: 0 0 auto; cursor: pointer; accent-color: #2d8cff; }
+  .lm-ack label { font-size: 13.5px; line-height: 1.5; color: #1b2238; cursor: pointer; }
+  .lm-continue { width: 100%; box-sizing: border-box; }
+  .lm-hint { font-size: 12px; color: #6b7280; margin: 10px 2px 0; line-height: 1.45; text-align: center; }
+</style>
+
+<div class="lm">
+  <div class="lm-icon">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="#f5a623" d="M12 2.2 1.6 20.6h20.8L12 2.2z"/>
+      <rect x="11.05" y="8.6" width="1.9" height="6.4" rx=".95" fill="#fff"/>
+      <circle cx="12" cy="17.4" r="1.1" fill="#fff"/>
+    </svg>
+  </div>
+
+  <div class="lm-h1">Before you continue</div>
+
+  <div class="lm-panel">
+    <div class="lm-row">
+      <div class="lm-t">Unofficial &amp; Unpredictable</div>
+      <div class="lm-d">This app is not official and is not supported by Leapmotor. It relies on a non-official API that can change, fail, or act unpredictably. Always verify actions and test in a safe setting.</div>
+    </div>
+    <div class="lm-row">
+      <div class="lm-t">PIN = Control</div>
+      <div class="lm-d">Leaving the PIN blank limits the app to monitoring only. Entering it enables remote commands but increases risk.</div>
+    </div>
+    <div class="lm-row">
+      <div class="lm-t">Rate limits</div>
+      <div class="lm-d">Excessive polling or commands can trigger account blocks. Keep usage reasonable.</div>
+    </div>
+    <div class="lm-row">
+      <div class="lm-t">Protect Your Main Account</div>
+      <div class="lm-d">Leapmotor can block unofficial access without warning. Create a separate Leapmotor account for this app to avoid losing access to your car.</div>
+    </div>
+    <div class="lm-row">
+      <div class="lm-t">You're in Charge</div>
+      <div class="lm-d">You assume all responsibility for any vehicle damage, accidents, account locks, or data issues caused by this app.</div>
+    </div>
+  </div>
+
+  <div class="lm-ack">
+    <input type="checkbox" id="ack" />
+    <label for="ack">I understand these conditions and accept full responsibility for any consequences.</label>
+  </div>
+
+  <button id="continue" class="homey-button-primary-full lm-continue">Continue</button>
+  <p class="lm-hint">Tick the acknowledgement box above, then press Continue. Continuing without it stops the pairing.</p>
+</div>
+
+<script type="application/javascript">
+  var checkbox = document.getElementById('ack');
+  var continueButton = document.getElementById('continue');
+
+  function safe(fn) { try { return fn(); } catch (err) { return undefined; } }
+
+  function emit(event, data) {
+    return new Promise(function (resolve, reject) {
+      var settled = false;
+      function done(err, result) {
+        if (settled) return;
+        settled = true;
+        if (err) reject(err); else resolve(result);
+      }
+      try {
+        var p = Homey.emit(event, data, done);
+        if (p && typeof p.then === 'function') p.then(function (r) { done(null, r); }, function (e) { done(e); });
+      } catch (err) { done(err); }
+      setTimeout(function () { done(null, null); }, 30000);
+    });
+  }
+
+  function show(viewId) {
+    safe(function () {
+      var p = Homey.showView(viewId);
+      if (p && typeof p.catch === 'function') p.catch(function () {});
+    });
+  }
+
+  function toggle() {
+    emit('disclaimer_ack', checkbox.checked === true).catch(function () {});
+  }
+
+  function proceed() {
+    if (checkbox.checked) {
+      emit('disclaimer_ack', true)
+        .then(function () { show('certkey'); })
+        .catch(function () { show('certkey'); });
+      return;
+    }
+    show('disclaimer_blocked');
+  }
+
+  checkbox.addEventListener('change', toggle);
+  continueButton.addEventListener('click', proceed);
+
+  safe(function () { Homey.setTitle('Disclaimer'); });
+  safe(function () { Homey.ready(); });
+</script>

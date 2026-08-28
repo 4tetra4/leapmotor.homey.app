@@ -1,0 +1,606 @@
+<style>
+  .vi { padding: 2px 2px 12px; color: #1b2238; font-size: 13px; }
+  .vi-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 12px; }
+  .vi-title { font-size: 17px; font-weight: 700; }
+  .vi-sub { font-size: 11px; color: #6b7488; margin-top: 2px; }
+  .vi-btn {
+    border: none; border-radius: 10px; background: #2d8cff; color: #fff;
+    font-size: 12px; font-weight: 700; padding: 9px 14px; cursor: pointer;
+  }
+  .vi-btn:disabled { opacity: .55; cursor: default; }
+  .vi-btn-ghost {
+    border: 1px solid rgba(20,26,46,.18); background: #fff; color: #1b2238;
+  }
+  .vi-btn-danger {
+    border: 1px solid rgba(161,32,32,.22); background: #fff; color: #a12020;
+  }
+  .vi-card { background: #fff; border-radius: 14px; border: 1px solid rgba(20,26,46,.08); padding: 12px 12px 6px; margin-bottom: 12px; }
+  .vi-card h3 { margin: 0 0 8px; font-size: 13px; font-weight: 700; letter-spacing: .02em; text-transform: uppercase; color: #4a5470; }
+  .vi-row { display: flex; justify-content: space-between; gap: 12px; padding: 6px 0; border-bottom: 1px solid rgba(20,26,46,.05); }
+  .vi-row:last-child { border-bottom: none; }
+  .vi-key { color: #6b7488; }
+  .vi-val { font-weight: 600; text-align: right; word-break: break-word; }
+  table.vi-table { width: 100%; border-collapse: collapse; }
+  table.vi-table th { text-align: left; font-size: 11px; text-transform: uppercase; color: #6b7488; padding: 4px 6px; border-bottom: 1px solid rgba(20,26,46,.12); }
+  table.vi-table td { padding: 5px 6px; border-bottom: 1px solid rgba(20,26,46,.05); vertical-align: top; }
+  table.vi-table tr:last-child td { border-bottom: none; }
+  .vi-id { width: 46px; font-variant-numeric: tabular-nums; color: #4a5470; }
+  .vi-mark { width: 26px; text-align: center; font-weight: 700; }
+  .vi-yes { color: #1aa251; }
+  .vi-no { color: #c2c8d4; }
+  .vi-desc { color: #6b7488; font-size: 11px; }
+  .vi-pill { display: inline-block; background: #eef3fb; color: #34405c; border-radius: 999px; padding: 2px 9px; font-size: 11px; font-weight: 700; margin-left: 6px; }
+  .vi-empty { color: #6b7488; padding: 8px 2px; }
+  .vi-error { background: #fdecec; color: #a12020; border-radius: 10px; padding: 10px; margin-bottom: 12px; }
+  .vi-cert-card { background: #fff; border-radius: 14px; border: 1px solid rgba(20,26,46,.08); padding: 12px; margin-bottom: 12px; }
+  .vi-cert-card h3 { margin: 0 0 8px; font-size: 13px; font-weight: 700; letter-spacing: .02em; text-transform: uppercase; color: #4a5470; }
+  .vi-cert-hint { font-size: 12px; color: #6b7488; line-height: 1.5; margin-bottom: 10px; }
+  .vi-cert-actions { display: flex; gap: 8px; margin-bottom: 12px; }
+  .vi-cert-actions .vi-btn { flex: 1 1 0; }
+  .vi-cert-label { display: block; font-size: 12px; font-weight: 700; color: #1b2238; margin: 0 0 5px; }
+  .vi-cert-field { margin-bottom: 10px; }
+  .vi-cert-field textarea {
+    width: 100%; box-sizing: border-box; min-height: 84px; resize: vertical;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 11px; line-height: 1.4; padding: 9px 11px;
+    border-radius: 10px; border: 1px solid rgba(20,26,46,.14);
+    background: #f9fafc; color: #1b2238;
+  }
+  .vi-cert-field textarea:focus { outline: none; border-color: #2d8cff; background: #fff; }
+  .vi-cert-state { font-size: 12px; margin: 6px 1px 0; min-height: 15px; }
+  .vi-cert-ok { color: #1a8a3b; }
+  .vi-cert-err { color: #a12020; }
+  .vi-log-card { background: #fff; border-radius: 14px; border: 1px solid rgba(20,26,46,.08); padding: 12px; margin-bottom: 12px; }
+  .vi-log-card h3 { margin: 0 0 8px; font-size: 13px; font-weight: 700; letter-spacing: .02em; text-transform: uppercase; color: #4a5470; }
+  .vi-log-hint { font-size: 12px; color: #6b7488; line-height: 1.5; margin: 0 0 10px; }
+  .vi-log-toggle-row {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 8px 0 10px; border-bottom: 1px solid rgba(20,26,46,.05);
+  }
+  .vi-log-toggle-label { font-size: 13px; font-weight: 700; color: #1b2238; }
+  .vi-log-toggle-note { font-size: 11px; color: #6b7488; margin-top: 2px; }
+  .vi-switch { position: relative; width: 44px; height: 26px; flex-shrink: 0; display: inline-block; }
+  .vi-switch input { opacity: 0; width: 0; height: 0; position: absolute; }
+  .vi-slider {
+    position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+    background: #d5dae3; border-radius: 999px;
+  }
+  .vi-slider:before {
+    content: ''; position: absolute; height: 20px; width: 20px;
+    left: 3px; top: 3px; background: #fff; border-radius: 50%;
+  }
+  .vi-switch input:checked + .vi-slider { background: #2d8cff; }
+  .vi-switch input:checked + .vi-slider:before { left: 21px; }
+  .vi-log-cols-title {
+    font-size: 12px; font-weight: 700; color: #4a5470; letter-spacing: .02em;
+    text-transform: uppercase; margin: 12px 0 6px;
+  }
+  .vi-log-cols { margin: 0 0 8px; }
+  .vi-log-col {
+    display: flex; align-items: center; gap: 10px;
+    padding: 7px 0; border-bottom: 1px solid rgba(20,26,46,.05);
+    font-size: 13px; color: #1b2238;
+  }
+  .vi-log-col:last-child { border-bottom: none; }
+  .vi-log-col input { width: 16px; height: 16px; margin: 0; flex-shrink: 0; accent-color: #2d8cff; }
+  .vi-log-meta { font-size: 12px; color: #4a5470; margin: 10px 0 8px; line-height: 1.45; }
+  .vi-log-row { display: flex; gap: 8px; margin-bottom: 4px; }
+  .vi-log-row .vi-btn { flex: 1 1 0; }
+  .vi-log-state { font-size: 12px; margin: 8px 1px 2px; min-height: 15px; }
+</style>
+<div class="vi">
+  <div class="vi-head">
+    <div>
+      <div class="vi-title">Vehicle information</div>
+      <div class="vi-sub" id="updated">Loading...</div>
+    </div>
+    <button class="vi-btn" id="refresh" type="button">Refresh</button>
+  </div>
+  <div id="error" class="vi-error" style="display:none"></div>
+  <div class="vi-log-card">
+    <h3>Sensor log</h3>
+    <div class="vi-log-hint">
+      When recording is on, every status update is appended to a CSV on Homey.
+      Date/time is always included. Choose the fields below. Changing the selection
+      starts a new file. Off by default.
+    </div>
+    <div class="vi-log-toggle-row">
+      <div>
+        <div class="vi-log-toggle-label">Record sensor updates</div>
+        <div class="vi-log-toggle-note" id="logToggleNote">Off. No rows will be written.</div>
+      </div>
+      <label class="vi-switch">
+        <input id="logEnabled" type="checkbox" />
+        <span class="vi-slider"></span>
+      </label>
+    </div>
+    <div class="vi-log-cols-title">Include in the CSV</div>
+    <div class="vi-log-cols" id="logCols"></div>
+    <div class="vi-log-meta" id="logMeta">Current file size: 0 B</div>
+    <div class="vi-log-row">
+      <button class="vi-btn" id="logDownload" type="button">Download</button>
+      <button class="vi-btn vi-btn-danger" id="logClear" type="button">Clear</button>
+    </div>
+    <div id="logState" class="vi-log-state"></div>
+  </div>
+  <div id="body"></div>
+  <div class="vi-cert-card">
+    <h3>App certificate &amp; key</h3>
+    <div class="vi-cert-hint">
+      If the Leapmotor app certificate or private key changes, you can update it here without removing or reinstalling
+      the app. Press Download to fetch the current files (the download links are read from the link file in the app's
+      repository), or paste them manually and press Save. The new certificate and key are applied immediately. Leave the
+      fields untouched to keep the current values.
+    </div>
+    <div class="vi-cert-actions">
+      <button class="vi-btn" id="certDownload" type="button">Download certificate &amp; key</button>
+      <button class="vi-btn vi-btn-ghost" id="certSave" type="button">Save</button>
+    </div>
+    <div class="vi-cert-field">
+      <label class="vi-cert-label" for="cert">Certificate (app.crt)</label>
+      <textarea id="cert" spellcheck="false" placeholder="-----BEGIN CERTIFICATE-----&#10;..."></textarea>
+    </div>
+    <div class="vi-cert-field">
+      <label class="vi-cert-label" for="key">Private key (app.key)</label>
+      <textarea id="key" spellcheck="false" placeholder="-----BEGIN PRIVATE KEY-----&#10;..."></textarea>
+    </div>
+    <div id="certState" class="vi-cert-state"></div>
+  </div>
+</div>
+<script type="application/javascript">
+  var bodyEl = document.getElementById('body');
+  var updatedEl = document.getElementById('updated');
+  var errorEl = document.getElementById('error');
+  var refreshBtn = document.getElementById('refresh');
+  var certDownloadBtn = document.getElementById('certDownload');
+  var certSaveBtn = document.getElementById('certSave');
+  var certEl = document.getElementById('cert');
+  var keyEl = document.getElementById('key');
+  var certStateEl = document.getElementById('certState');
+  var certBusy = false;
+  var logEnabledEl = document.getElementById('logEnabled');
+  var logToggleNoteEl = document.getElementById('logToggleNote');
+  var logMetaEl = document.getElementById('logMeta');
+  var logStateEl = document.getElementById('logState');
+  var logColsEl = document.getElementById('logCols');
+  var logDownloadBtn = document.getElementById('logDownload');
+  var logClearBtn = document.getElementById('logClear');
+  var logBusy = false;
+  var logIgnoreCols = false;
+  var logInfo = { enabled: false, size: 0, sizeText: '0 B', rows: 0, urls: [], exists: false, full: false, columns: [] };
+  var DEFAULT_COLUMNS = [
+    { id: 'odometer', label: 'Odometer', enabled: true },
+    { id: 'speed', label: 'Speed', enabled: true },
+    { id: 'soc', label: 'Precise SOC', enabled: true },
+    { id: 'chargingPower', label: 'Charging power', enabled: true },
+    { id: 'cable', label: 'Cable connected', enabled: false },
+    { id: 'cabinTemp', label: 'Cabin temperature', enabled: true },
+    { id: 'batteryTemp', label: 'Battery temperature', enabled: true },
+    { id: 'heating', label: 'Heating', enabled: false },
+    { id: 'ac', label: 'AC', enabled: false },
+    { id: 'locked', label: 'Vehicle locked', enabled: false },
+    { id: 'gear', label: 'Gear status', enabled: false },
+    { id: 'location', label: 'Longitude/Latitude', enabled: false },
+    { id: 'tires', label: 'Tire pressures', enabled: true }
+  ];
+
+  function safe(fn) { try { return fn(); } catch (err) { return undefined; } }
+
+  function emit(event, data, timeoutMs) {
+    return new Promise(function (resolve, reject) {
+      var settled = false;
+      function done(err, result) {
+        if (settled) return;
+        settled = true;
+        if (err) reject(err); else resolve(result);
+      }
+      try {
+        var p = Homey.emit(event, data, done);
+        if (p && typeof p.then === 'function') p.then(function (r) { done(null, r); }, function (e) { done(e); });
+      } catch (err) { done(err); }
+      setTimeout(function () { done(new Error('The request timed out.')); }, timeoutMs || 45000);
+    });
+  }
+
+  function esc(value) {
+    return String(value === null || value === undefined ? '-' : value)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  function card(title, badge) {
+    var html = '<div class="vi-card"><h3>' + esc(title);
+    if (badge) html += '<span class="vi-pill">' + esc(badge) + '</span>';
+    return html + '</h3>';
+  }
+
+  function rows(pairs) {
+    var html = '';
+    pairs.forEach(function (pair) {
+      if (pair[1] === undefined || pair[1] === null || pair[1] === '') return;
+      html += '<div class="vi-row"><div class="vi-key">' + esc(pair[0]) + '</div><div class="vi-val">' + esc(pair[1]) + '</div></div>';
+    });
+    return html;
+  }
+
+  function table(list) {
+    if (!list || list.length === 0) return '<div class="vi-empty">No entries reported.</div>';
+    var html = '<table class="vi-table"><thead><tr><th class="vi-id">ID</th><th>Function</th><th class="vi-mark">OK</th></tr></thead><tbody>';
+    list.forEach(function (item) {
+      html += '<tr>'
+        + '<td class="vi-id">' + esc(item.id) + '</td>'
+        + '<td><div>' + esc(item.short) + '</div><div class="vi-desc">' + esc(item.description) + '</div></td>'
+        + '<td class="vi-mark ' + (item.granted ? 'vi-yes' : 'vi-no') + '">' + (item.granted ? '\u2713' : '\u2717') + '</td>'
+        + '</tr>';
+    });
+    return html + '</tbody></table>';
+  }
+
+  function render(info) {
+    if (!info) {
+      bodyEl.innerHTML = '<div class="vi-empty">No vehicle information has been received from the Leapmotor cloud yet. Press Refresh.</div>';
+      updatedEl.textContent = 'Not available';
+      return;
+    }
+    updatedEl.textContent = 'Updated ' + (info.generatedAtText || '-');
+    var html = '';
+    html += card('Vehicle')
+      + rows([
+        ['Model', info.vehicle.model],
+        ['Car type', info.vehicle.carType],
+        ['Model year', info.vehicle.year],
+        ['Name', info.vehicle.name],
+        ['Alias', info.vehicle.alias],
+        ['Plate', info.vehicle.plateNumber],
+        ['Colour', info.vehicle.colour],
+        ['Configuration', info.vehicle.configEdition],
+        ['Steering', info.vehicle.rudder],
+        ['Seats', info.vehicle.seats]
+      ]) + '</div>';
+    html += card('Identifiers')
+      + rows([
+        ['VIN', info.identifiers.vin],
+        ['Car ID', info.identifiers.carId],
+        ['Owner user ID', info.identifiers.ownerUserId],
+        ['Account user ID', info.identifiers.accountUserId],
+        ['Device ID', info.identifiers.deviceId],
+        ['Allocation code', info.identifiers.allocationCode],
+        ['Account', info.identifiers.email]
+      ]) + '</div>';
+    html += card('API')
+      + rows([
+        ['App version', info.connection.appVersion],
+        ['API language', info.connection.apiLanguage],
+        ['Base URL', info.connection.baseUrl],
+        ['Status endpoint', info.connection.statusEndpoint],
+        ['Status segment', info.vehicle.statusPath],
+        ['Channel', info.connection.channel],
+        ['Device type', info.connection.deviceType],
+        ['Source', info.connection.source],
+        ['Encryption', info.connection.encryptionAlgorithm],
+        ['Policy ID', info.connection.policyId]
+      ]) + '</div>';
+    html += card('Sharing')
+      + rows([
+        ['Share type', info.sharing.shareType],
+        ['Shared at', info.sharing.shareTime],
+        ['Expires', info.sharing.expireTime],
+        ['Duration', info.sharing.durationType],
+        ['Mobile number', info.sharing.mobileNumber]
+      ]) + '</div>';
+    html += card('Module rights', info.totals.moduleRightsGranted + '/' + info.totals.moduleRightsTotal)
+      + table(info.moduleRights) + '</div>';
+    html += card('Rights', info.totals.rightsGranted + '/' + info.totals.rightsTotal)
+      + table(info.rights) + '</div>';
+    html += card('Capabilities', info.totals.abilitiesGranted + '/' + info.totals.abilitiesTotal)
+      + table(info.abilities) + '</div>';
+    bodyEl.innerHTML = html;
+  }
+
+  function showError(message) {
+    if (!message) {
+      errorEl.style.display = 'none';
+      errorEl.textContent = '';
+      return;
+    }
+    errorEl.style.display = 'block';
+    errorEl.textContent = String(message);
+  }
+
+  function load(force) {
+    refreshBtn.disabled = true;
+    showError(null);
+    if (force) updatedEl.textContent = 'Contacting the Leapmotor cloud...';
+    emit(force ? 'refresh_vehicle_info' : 'get_vehicle_info')
+      .then(function (result) {
+        refreshBtn.disabled = false;
+        if (result && result.ok === false) {
+          showError(result.error || 'The vehicle information could not be loaded.');
+          render(result.info || null);
+          return;
+        }
+        render(result && result.info ? result.info : result);
+      })
+      .catch(function (err) {
+        refreshBtn.disabled = false;
+        showError(err && err.message ? err.message : err);
+      });
+  }
+
+  function setCertState(ok, text) {
+    certStateEl.textContent = text;
+    certStateEl.className = 'vi-cert-state ' + (ok ? 'vi-cert-ok' : (text ? 'vi-cert-err' : ''));
+  }
+
+  function setCertButtons(disabled) {
+    certDownloadBtn.disabled = disabled;
+    certSaveBtn.disabled = disabled;
+  }
+
+  function loadCerts() {
+    emit('get_certs', {})
+      .then(function (res) {
+        if (res) {
+          if (res.cert) certEl.value = res.cert;
+          if (res.key) keyEl.value = res.key;
+        }
+      })
+      .catch(function () {});
+  }
+
+  function downloadCerts() {
+    if (certBusy) return;
+    certBusy = true;
+    setCertButtons(true);
+    setCertState(false, '');
+    safe(function () { Homey.showLoadingOverlay(); });
+    emit('fetch_certs', {}, 120000)
+      .then(function (res) {
+        safe(function () { Homey.hideLoadingOverlay(); });
+        certBusy = false;
+        setCertButtons(false);
+        if (res && res.ok) {
+          certEl.value = res.cert;
+          keyEl.value = res.key;
+          setCertState(true, 'Certificate and key downloaded and applied.');
+        } else {
+          setCertState(false, (res && res.error) || 'Download failed.');
+        }
+      })
+      .catch(function (err) {
+        safe(function () { Homey.hideLoadingOverlay(); });
+        certBusy = false;
+        setCertButtons(false);
+        setCertState(false, (err && err.message) || 'Download failed.');
+      });
+  }
+
+  function saveCerts() {
+    if (certBusy) return;
+    certBusy = true;
+    setCertButtons(true);
+    setCertState(false, '');
+    emit('set_certs', { cert: certEl.value, key: keyEl.value }, 60000)
+      .then(function (res) {
+        certBusy = false;
+        setCertButtons(false);
+        if (res && res.ok) {
+          setCertState(true, 'Saved. The app now uses this certificate and key.');
+          return;
+        }
+        var parts = [];
+        if (res && res.certValid === false && certEl.value.trim()) parts.push('The certificate is not a valid PEM certificate.');
+        if (res && res.keyValid === false && keyEl.value.trim()) parts.push('The private key is not a valid PEM key.');
+        if (!parts.length) parts.push('Nothing was saved. Paste a valid certificate and private key, or press Download certificate & key.');
+        setCertState(false, parts.join(' '));
+      })
+      .catch(function (err) {
+        certBusy = false;
+        setCertButtons(false);
+        setCertState(false, (err && err.message) || 'Save failed.');
+      });
+  }
+
+  function setLogState(ok, text) {
+    logStateEl.textContent = text || '';
+    logStateEl.className = 'vi-log-state ' + (ok ? 'vi-cert-ok' : (text ? 'vi-cert-err' : ''));
+  }
+
+  function cloudUrl() {
+    var list = logInfo.urls || [];
+    var i;
+    for (i = 0; i < list.length; i++) {
+      if (list[i] && list[i].id === 'cloud_connect' && list[i].url) return list[i].url;
+    }
+    for (i = 0; i < list.length; i++) {
+      if (list[i] && list[i].id === 'cloud_app' && list[i].url) return list[i].url;
+    }
+    return '';
+  }
+
+  function renderColumns(list) {
+    var cols = list && list.length ? list : DEFAULT_COLUMNS;
+    var html = '';
+    cols.forEach(function (col) {
+      html += '<label class="vi-log-col">'
+        + '<input type="checkbox" data-col="' + esc(col.id) + '"' + (col.enabled ? ' checked' : '') + ' />'
+        + '<span>' + esc(col.label) + '</span>'
+        + '</label>';
+    });
+    logIgnoreCols = true;
+    logColsEl.innerHTML = html;
+    logIgnoreCols = false;
+  }
+
+  function readColumns() {
+    var map = {};
+    var inputs = logColsEl.querySelectorAll('input[data-col]');
+    var i;
+    for (i = 0; i < inputs.length; i++) map[inputs[i].getAttribute('data-col')] = inputs[i].checked === true;
+    return map;
+  }
+
+  function applyLogInfo(info) {
+    if (!info) return;
+    logInfo = info;
+    logEnabledEl.checked = info.enabled === true;
+    if (info.enabled) {
+      logToggleNoteEl.textContent = info.full
+        ? 'On, but the file is full. Clear it to keep recording.'
+        : 'On. Each status update is appended to the CSV.';
+    } else {
+      logToggleNoteEl.textContent = 'Off. No rows will be written.';
+    }
+    var meta = 'Current file size: ' + (info.sizeText || '0 B');
+    if (info.rows) meta += ' \u00b7 about ' + info.rows + ' row' + (info.rows === 1 ? '' : 's');
+    if (info.full) meta += ' \u00b7 log is full (' + (info.maxText || '1 MB') + ')';
+    if (!info.exists || !info.size) meta += ' \u00b7 no file yet';
+    logMetaEl.textContent = meta;
+    renderColumns(info.columns);
+  }
+
+  function loadLog() {
+    return emit('get_sensor_log', {}, 30000)
+      .then(function (res) {
+        if (res && res.ok === false) {
+          setLogState(false, res.error || 'Could not read the sensor log.');
+          applyLogInfo(res);
+          return res;
+        }
+        applyLogInfo(res || {});
+        return res;
+      })
+      .catch(function (err) {
+        setLogState(false, (err && err.message) || 'Could not read the sensor log.');
+        renderColumns(DEFAULT_COLUMNS);
+      });
+  }
+
+  function setLogBusy(busy) {
+    logBusy = busy;
+    logEnabledEl.disabled = busy;
+    logDownloadBtn.disabled = busy;
+    logClearBtn.disabled = busy;
+    var inputs = logColsEl.querySelectorAll('input[data-col]');
+    var i;
+    for (i = 0; i < inputs.length; i++) inputs[i].disabled = busy;
+  }
+
+  function onDownload() {
+    if (!logInfo.exists || !logInfo.size) {
+      setLogState(false, 'There is no log file yet. Turn recording on and wait for the next status update.');
+      return;
+    }
+    var url = cloudUrl();
+    if (!url) {
+      setLogState(false, 'No Homey Cloud download link is available.');
+      return;
+    }
+    var opened = false;
+    safe(function () {
+      if (typeof Homey.popup === 'function') {
+        Homey.popup(url);
+        opened = true;
+      }
+    });
+    setLogState(opened, opened ? 'Opening the log file.' : 'Homey.popup is not available in this view.');
+  }
+
+  function onToggle() {
+    if (logBusy) {
+      logEnabledEl.checked = logInfo.enabled === true;
+      return;
+    }
+    var enabled = logEnabledEl.checked === true;
+    setLogBusy(true);
+    setLogState(false, '');
+    emit('set_sensor_log', { enabled: enabled }, 30000)
+      .then(function (res) {
+        setLogBusy(false);
+        if (res && res.ok === false) {
+          logEnabledEl.checked = !enabled;
+          setLogState(false, res.error || 'Could not change recording.');
+          return;
+        }
+        applyLogInfo(res || {});
+        setLogState(true, enabled ? 'Recording is on. The next status update will add a row.' : 'Recording is off.');
+      })
+      .catch(function (err) {
+        setLogBusy(false);
+        logEnabledEl.checked = !enabled;
+        setLogState(false, (err && err.message) || 'Could not change recording.');
+      });
+  }
+
+  function onColumnsChange() {
+    if (logBusy || logIgnoreCols) return;
+    setLogBusy(true);
+    setLogState(false, '');
+    emit('set_sensor_log_columns', { columns: readColumns() }, 30000)
+      .then(function (res) {
+        setLogBusy(false);
+        if (res && res.ok === false) {
+          setLogState(false, res.error || 'Could not save the column selection.');
+          loadLog();
+          return;
+        }
+        applyLogInfo(res || {});
+        setLogState(true, 'Column selection saved. A new file is used if the selection changed.');
+      })
+      .catch(function (err) {
+        setLogBusy(false);
+        setLogState(false, (err && err.message) || 'Could not save the column selection.');
+        loadLog();
+      });
+  }
+
+  function onClear() {
+    if (logBusy) return;
+    var go = function () {
+      setLogBusy(true);
+      setLogState(false, '');
+      emit('clear_sensor_log', {}, 30000)
+        .then(function (res) {
+          setLogBusy(false);
+          if (res && res.ok === false) {
+            setLogState(false, res.error || 'Could not clear the log.');
+            return;
+          }
+          applyLogInfo(res || {});
+          setLogState(true, 'Log cleared.');
+        })
+        .catch(function (err) {
+          setLogBusy(false);
+          setLogState(false, (err && err.message) || 'Could not clear the log.');
+        });
+    };
+    var asked = false;
+    safe(function () {
+      if (typeof Homey.confirm !== 'function') return;
+      asked = true;
+      var p = Homey.confirm('Delete the sensor log file? This cannot be undone.');
+      if (p && typeof p.then === 'function') {
+        p.then(function (ok) { if (ok) go(); });
+      } else {
+        go();
+      }
+    });
+    if (!asked) {
+      if (window.confirm('Delete the sensor log file? This cannot be undone.')) go();
+    }
+  }
+
+  refreshBtn.addEventListener('click', function () { load(true); });
+  certDownloadBtn.addEventListener('click', downloadCerts);
+  certSaveBtn.addEventListener('click', saveCerts);
+  logEnabledEl.addEventListener('change', onToggle);
+  logDownloadBtn.addEventListener('click', onDownload);
+  logClearBtn.addEventListener('click', onClear);
+  logColsEl.addEventListener('change', onColumnsChange);
+
+  safe(function () { Homey.setTitle('Vehicle information'); });
+  renderColumns(DEFAULT_COLUMNS);
+  load(false);
+  loadCerts();
+  loadLog();
+  safe(function () { Homey.ready(); });
+</script>

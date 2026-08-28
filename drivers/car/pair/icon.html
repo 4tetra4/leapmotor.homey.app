@@ -1,0 +1,113 @@
+<style>
+  .lm { padding: 2px 2px 8px; color: #2b3245; }
+  .lm-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .lm-opt {
+    position: relative; cursor: pointer; padding: 14px 10px 12px; text-align: center;
+    background: #fff; border-radius: 14px; border: 2px solid rgba(20, 26, 46, 0.08);
+    transition: border-color .15s, transform .1s;
+  }
+  .lm-opt:active { transform: scale(0.98); }
+  .lm-opt.selected { border-color: #2d8cff; }
+  .lm-opt .lm-thumb {
+    width: 100%; height: 76px; display: flex; align-items: center; justify-content: center;
+    background: #f3f5f9; border-radius: 10px; margin-bottom: 9px; overflow: hidden;
+  }
+  .lm-opt .lm-thumb img { width: 78%; height: 78%; object-fit: contain; }
+  .lm-opt .lm-name { font-size: 13px; color: #1b2238; font-weight: 600; }
+  .lm-check {
+    position: absolute; top: 7px; right: 7px; width: 20px; height: 20px; border-radius: 50%;
+    background: #2d8cff; display: none; align-items: center; justify-content: center;
+  }
+  .lm-opt.selected .lm-check { display: flex; }
+  .lm-check svg { width: 12px; height: 12px; }
+  .lm-unit-wrap { margin-top: 18px; padding: 12px; background: #f3f5f9; border-radius: 12px; text-align: center; }
+  .lm-unit-label { font-size: 13px; font-weight: 600; color: #1b2238; margin-bottom: 8px; text-align: center; }
+  .lm-unit-row { display: flex; gap: 8px; }
+  .lm-unit { flex: 1; padding: 10px 0; border-radius: 10px; border: 2px solid rgba(20,26,46,0.08); background: #fff; font-size: 14px; font-weight: 700; cursor: pointer; text-align: center; display: flex; align-items: center; justify-content: center; }
+  .lm-unit.selected { border-color: #2d8cff; background: #eaf2ff; color: #1b2238; }
+</style>
+<div class="lm">
+  <div id="grid" class="lm-grid"></div>
+  <div class="lm-unit-wrap">
+    <div class="lm-unit-label">Metric or Imperial</div>
+    <div class="lm-unit-row">
+      <div id="unit_km" class="lm-unit selected" data-unit="km" role="button" tabindex="0">km / km/h</div>
+      <div id="unit_mi" class="lm-unit" data-unit="mi" role="button" tabindex="0">mi / mph</div>
+    </div>
+  </div>
+</div>
+<script type="application/javascript">
+  var grid = document.getElementById('grid');
+  var btnKm = document.getElementById('unit_km');
+  var btnMi = document.getElementById('unit_mi');
+  var options = [
+    { file: '/icon.svg', label: 'Default', src: '../assets/icon.svg' },
+    { file: '/B10f.svg', label: 'Option 1', src: '../assets/B10f.svg' },
+    { file: '/B10d.svg', label: 'Option 2', src: '../assets/B10d.svg' },
+    { file: '/B10s.svg', label: 'Option 3', src: '../assets/B10s.svg' }
+  ];
+  var selected = '/icon.svg';
+  var selectedUnit = 'km';
+  function safe(fn) { try { return fn(); } catch (err) { return undefined; } }
+  function emit(event, data) {
+    return new Promise(function (resolve, reject) {
+      var settled = false;
+      function done(err, result) {
+        if (settled) return;
+        settled = true;
+        if (err) reject(err); else resolve(result);
+      }
+      try {
+        var p = Homey.emit(event, data, done);
+        if (p && typeof p.then === 'function') p.then(function (r) { done(null, r); }, function (e) { done(e); });
+      } catch (err) { done(err); }
+      setTimeout(function () { done(null, null); }, 30000);
+    });
+  }
+  function render() {
+    grid.innerHTML = '';
+    options.forEach(function (opt) {
+      var card = document.createElement('div');
+      card.className = 'lm-opt' + (opt.file === selected ? ' selected' : '');
+      card.innerHTML =
+        '<div class="lm-check"><svg viewBox="0 0 24 24"><path fill="#fff" d="M9.5 16.2 5.3 12l-1.4 1.4 5.6 5.6L20 8.2 18.6 6.8z"/></svg></div>'
+        + '<div class="lm-thumb"><img src="' + opt.src + '" alt="" onerror="this.style.display=\'none\'"/></div>'
+        + '<div class="lm-name">' + opt.label + '</div>';
+      card.addEventListener('click', function () { choose(opt.file); });
+      grid.appendChild(card);
+    });
+  }
+  function renderUnit() {
+    if (selectedUnit === 'mi') {
+      btnKm.className = 'lm-unit';
+      btnMi.className = 'lm-unit selected';
+    } else {
+      btnKm.className = 'lm-unit selected';
+      btnMi.className = 'lm-unit';
+    }
+  }
+  function choose(file) {
+    selected = file;
+    render();
+    emit('set_icon', file).catch(function () {});
+  }
+  function chooseUnit(unit) {
+    selectedUnit = unit === 'mi' ? 'mi' : 'km';
+    renderUnit();
+    emit('set_distance_unit', selectedUnit).catch(function () {});
+  }
+  btnKm.addEventListener('click', function () { chooseUnit('km'); });
+  btnMi.addEventListener('click', function () { chooseUnit('mi'); });
+  render();
+  renderUnit();
+  emit('set_icon', selected).catch(function () {});
+  emit('get_distance_unit').then(function (u) {
+    if (u === 'mi' || u === 'km') {
+      selectedUnit = u;
+      renderUnit();
+    }
+  }).catch(function () {});
+  emit('set_distance_unit', selectedUnit).catch(function () {});
+  safe(function () { Homey.setTitle('Choose an icon'); });
+  safe(function () { Homey.ready(); });
+</script>
