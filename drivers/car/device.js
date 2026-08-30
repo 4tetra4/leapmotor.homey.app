@@ -47,6 +47,7 @@ const OPEN_CLOSED_STORE_KEY = 'openClosedAt';
 const COMMAND_METHODS = ['executeCommand', 'sendCommand', 'runCommand', 'remoteControl', 'sendRemoteCommand', 'command'];
 const RAW_COMMAND_METHODS = ['executeRawCommand', 'sendRawCommand', 'rawCommand', 'remoteControlRaw'];
 const STATUS_METHODS = ['getVehicleStatus', 'getStatus', 'vehicleStatus', 'fetchVehicleStatus'];
+const VEHICLE_DETAIL_METHODS = ['getVehicleDetail', 'findVehicleByVin', 'getVehicleInfo', 'vehicleDetail'];
 const STATE_COMMANDS = {
   leapmotor_lock_control: {
     true: { command: 'lock' },
@@ -710,6 +711,30 @@ class CarDevice extends Homey.Device {
     if (!method) return Promise.reject(new Error('The Leapmotor client does not expose a status method.'));
     return Promise.resolve(this.client[method](this.vin, this.carType));
   }
+  _invokeVehicleDetail() {
+    const method = this._resolveMethod(VEHICLE_DETAIL_METHODS);
+    if (!method) return Promise.reject(new Error('The Leapmotor client does not expose a vehicle detail method.'));
+    return Promise.resolve(this.client[method](this.vin, this.carType));
+  }
+  _clientUserId() {
+    if (!this.client) return null;
+    if (typeof this.client.userId === 'function') return this.client.userId();
+    if (this.client.state && this.client.state.userId) return this.client.state.userId;
+    return this.client.userId || null;
+  }
+  _clientDeviceId() {
+    if (!this.client) return null;
+    if (typeof this.client.deviceId === 'function') return this.client.deviceId();
+    if (this.client.state && this.client.state.deviceId) return this.client.state.deviceId;
+    return this.client.deviceId || null;
+  }
+  _homeyTimezone() {
+    try {
+      return this.homey.clock.getTimezone();
+    } catch (err) {
+      return undefined;
+    }
+  }
   _awaitAcknowledgement(key, promise) {
     return new Promise((resolve, reject) => {
       let settled = false;
@@ -1041,8 +1066,13 @@ class CarDevice extends Homey.Device {
         }).catch(() => {});
         if (this._sensorLog) {
           try {
-            await this._sensorLog.record(rawStatus, values);
+            if (typeof this._sensorLog.record === 'function') {
+              await this._sensorLog.record(rawStatus, values);
+            } else if (typeof this._sensorLog.append === 'function') {
+              this._sensorLog.append(values, new Date(this._lastUpdateAt).toISOString());
+            }
           } catch (err) {
+            this.error('Failed to write the sensor log:', err.message);
           }
         }
         this._failureCount = 0;
@@ -1080,20 +1110,27 @@ class CarDevice extends Homey.Device {
     if (!force && stored && stored.generatedAt && Date.now() - stored.generatedAt < VEHICLE_INFO_MAX_AGE_MS) {
       return stored;
     }
-    const raw = await this.client.getVehicleDetail(this.vin, this.carType);
+    const raw = await this._invokeVehicleDetail();
     const snapshot = VehicleInfo.buildSnapshot(raw, {
       vin: this.vin,
+      carType: this.carType,
       name: this.getName(),
-      userId: this.client.userId,
-      deviceId: this.client.deviceId,
+      userId: this._clientUserId(),
+      deviceId: this._clientDeviceId(),
       username: this.getSetting('username'),
       language: this.getSetting('language'),
       baseUrl: this.getSetting('baseUrl'),
-      statusPath: this.getStoreValue('statusPath')
+      statusPath: this.getStoreValue('statusPath'),
+      timezone: this._homeyTimezone()
     });
     await this.setStoreValue(VEHICLE_INFO_STORE_KEY, snapshot);
     const newSettings = VehicleInfo.toSettings(snapshot);
-    await this.setSettings(newSettings).catch(() => {});
+    try {
+      await this.setSettings(newSettings);
+    } catch (err) {
+      this.error('Failed to store the vehicle information settings:', err.message);
+    }
+    this._scheduleVehicleInfoRefresh();
     return snapshot;
   }
   getStoredVehicleInfo() {

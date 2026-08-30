@@ -1,0 +1,14 @@
+{
+  "0.0.3": {
+    "en": "First public release"
+  },
+  "0.0.4": {
+    "en": "Updated Readme"
+  },
+  "0.0.5": {
+    "en": "Updated Readme"
+  },
+  "0.0.6": {
+    "en": "Mitigates the issues introduced by the app store packaging"
+  }
+}

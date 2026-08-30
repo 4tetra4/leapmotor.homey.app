@@ -1,6 +1,6 @@
 {
   "name": "zperx.leapmotor",
-  "version": "0.0.3",
+  "version": "0.0.6",
   "description": "Give your Leapmotor a Home[y]",
   "license": "GPL-3.0-or-later",
   "main": "app.js",
