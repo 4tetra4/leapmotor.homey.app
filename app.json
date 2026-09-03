@@ -1,6 +1,6 @@
 {
   "id": "zperx.leapmotor",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "compatibility": ">=12.5.0",
   "sdk": 3,
   "platforms": [
